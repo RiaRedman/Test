@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="navigation.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: #340A14;
+            color: #ECD9CB;
+            font-family: Georgia, serif;
+        }
+
+        header {
+            width: 100%;
+            padding: 2rem 1.5rem;
+            background: #340A14;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            color: #ECD9CB;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+        }
+
+        main {
+            width: min(100% - 2rem, 56rem);
+            margin: 2rem auto;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .contact-card {
+            min-height: 26rem;
+            padding: 3rem;
+            border-radius: 18px;
+            background: #531A23;
+            box-shadow: 0 16px 36px rgb(0 0 0 / 32%);
+        }
+
+        .contact-card:first-child {
+            min-height: 0;
+        }
+
+        .contact-card h2 {
+            margin: 0 0 1rem;
+            color: #ECD9CB;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 2rem;
+        }
+
+        .contact-card p {
+            max-width: 46rem;
+            line-height: 1.8;
+        }
+
+        .personal-details {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.25rem 2rem;
+            margin-top: 2rem;
+        }
+
+        .personal-details div {
+            padding-top: 1rem;
+            border-top: 1px solid rgb(236 217 203 / 25%);
+        }
+
+        .personal-details dt {
+            margin-bottom: 0.35rem;
+            color: #ECD9CB;
+            font-weight: 700;
+        }
+
+        .personal-details dd {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        .contact-form label {
+            display: grid;
+            gap: 0.5rem;
+            font-weight: 700;
+        }
+
+        .contact-form .field {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 1px solid rgb(236 217 203 / 45%);
+            border-radius: 6px;
+            background: #340A14;
+            color: #ECD9CB;
+            font: inherit;
+        }
+
+        .contact-form textarea {
+            min-height: 9rem;
+            resize: vertical;
+        }
+
+        .contact-form input:focus-visible,
+        .contact-form textarea:focus-visible,
+        .contact-form button:focus-visible {
+            outline: 2px solid #ECD9CB;
+            outline-offset: 3px;
+        }
+
+        .contact-form button {
+            justify-self: start;
+            padding: 0.85rem 1.4rem;
+            border: 0;
+            border-radius: 6px;
+            background: #ECD9CB;
+            color: #340A14;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .social-card {
+            width: min(100% - 2rem, 56rem);
+            margin: 0 auto 3rem;
+            padding: 2rem;
+            border-radius: 18px;
+            background: #531A23;
+            box-shadow: 0 16px 36px rgb(0 0 0 / 32%);
+            text-align: center;
+        }
+
+        .social-card h2 {
+            margin: 0 0 1.25rem;
+            color: #ECD9CB;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .social-links a {
+            color: #ECD9CB;
+            font-weight: 700;
+            text-underline-offset: 0.25em;
+        }
+
+        .social-links a:focus-visible {
+            outline: 2px solid #ECD9CB;
+            outline-offset: 4px;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.6rem;
+            }
+
+            .contact-card {
+                min-height: 0;
+                padding: 2rem 1.5rem;
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <nav class="site-nav" aria-label="Main navigation">
+        <ul>
+            <li><a href="Index.HTML">Home</a></li>
+            <li><a href="Contact.HTML" aria-current="page">Contact</a></li>
+            <li><a href="Skills.HTML">Skills</a></li>
+            <li><a href="Business%20Showcase.HTML">Business Showcase</a></li>
+            <li><a href="Problem%20Solving.HTML">Problem-Solving Page</a></li>
+        </ul>
+    </nav>
+    <header>
+        <h1>Get In Touch</h1>
+    </header>
+    <main>
+        <section class="contact-card">
+            <h2>Contact Details</h2>
+            <dl class="personal-details">
+                <div>
+                    <dt>Based in</dt>
+                    <dd>United Kindom, Manchester</dd>
+                </div>
+                <div>
+                    <dt>Email</dt>
+                    <dd>R.m.redman@edu.salford.ac.uk</dd>
+                </div>
+            </dl>
+        </section>
+        <section class="contact-card">
+            <h2>Send Me a Message</h2>
+            <form class="contact-form" method="post">
+                <div class="field">
+                    <label for="name">Name</label>
+                    <input id="name" name="name" type="text" autocomplete="name" required>
+                </div>
+
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" autocomplete="email" required>
+                </div>
+
+                <div class="field">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+    <footer class="social-card">
+        <h2>Find Me Online</h2>
+        <nav class="social-links" aria-label="Social media profiles">
+            <a href="https://www.linkedin.com/in/ria-redman-4b2b23347" target="_blank">LinkedIn</a>
+            <a href="https://github.com/RiaRedman">GitHub</a>
+        </nav>
+    </footer>
+</body>
+</html>

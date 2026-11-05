@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Home</title>
+	<link rel="stylesheet" href="navigation.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			min-height: 100vh;
+			margin: 0;
+			background: #340A14;
+			color: #ECD9CB;
+			font-family: Georgia, serif;
+		}
+
+		.home-main {
+			width: min(100% - 2rem, 56rem);
+			margin: 3rem auto 4rem;
+		}
+
+		.home-title {
+			margin: 0 0 2.25rem;
+			color: #ECD9CB;
+			font-family: "Playfair Display", Georgia, serif;
+			font-size: 3.5rem;
+			text-align: center;
+		}
+
+		.intro-row {
+			display: grid;
+			grid-template-columns: minmax(0, 1.1fr) minmax(15rem, 0.9fr);
+			align-items: center;
+			gap: 2rem;
+		}
+
+		.about-card {
+			padding: 3rem;
+			border: 1px solid #1C110F;
+			border-radius: 18px;
+			background: #531A23;
+			color: #ECD9CB;
+			box-shadow: 0 16px 36px rgb(0 0 0 / 32%);
+		}
+
+		.about-card h2 {
+			margin: 0;
+			font-family: "Playfair Display", Georgia, serif;
+			font-size: 2rem;
+		}
+
+		.about-card p {
+			margin: 1rem 0 0;
+			line-height: 1.7;
+		}
+
+		.headshot {
+			width: min(100%, 18rem);
+			max-width: 18rem;
+			max-height: 22rem;
+			aspect-ratio: 4 / 5;
+			justify-self: center;
+			border: 1px solid #1C110F;
+			border-radius: 18px;
+			object-fit: cover;
+			box-shadow: 0 16px 36px rgb(0 0 0 / 32%);
+		}
+
+		.topics-card {
+			margin-top: 3rem;
+		}
+
+		.about-sections {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 1.5rem;
+		}
+
+		.about-section {
+			padding: 1.25rem 1.5rem;
+			border: 1px solid #1C110F;
+			border-radius: 18px;
+			background: #531A23;
+			box-shadow: 0 16px 36px rgb(0 0 0 / 32%);
+		}
+
+		.about-section h2 {
+			margin: 0 0 0.5rem;
+			color: #ECD9CB;
+			font-size: 1.15rem;
+		}
+
+		.about-section p {
+			margin: 0;
+			line-height: 1.7;
+		}
+
+		@media (max-width: 600px) {
+			.home-main {
+				margin-top: 2rem;
+			}
+
+			.home-title {
+				font-size: 2.6rem;
+			}
+
+			.about-card {
+				padding: 2rem 1.25rem;
+			}
+
+			.intro-row {
+				grid-template-columns: 1fr;
+				gap: 1.5rem;
+			}
+
+			.headshot {
+				max-width: 16rem;
+			}
+
+			.topics-card {
+				margin-top: 2rem;
+			}
+
+			.about-sections {
+				grid-template-columns: 1fr;
+			}
+
+			.about-section {
+				padding: 1rem;
+			}
+		}
+	</style>
+</head>
+<body>
+	<nav class="site-nav" aria-label="Main navigation">
+		<ul>
+			<li><a href="Index.HTML" aria-current="page">Home</a></li>
+			<li><a href="Contact.HTML">Contact</a></li>
+			<li><a href="Skills.HTML">Skills</a></li>
+			<li><a href="Business%20Showcase.HTML">Business Showcase</a></li>
+			<li><a href="Problem%20Solving.HTML">Problem-Solving Page</a></li>
+		</ul>
+	</nav>
+	<main class="home-main">
+		<h1 class="home-title">Home Page</h1>
+		<section class="intro-row" aria-label="Introduction and photo">
+			<article class="about-card" aria-labelledby="about-title">
+				<h2 id="about-title">A Little About Me</h2>
+				<p>Add your introduction here when you're ready.</p>
+			</article>
+			<img class="headshot" src="images/headshot.jpeg" alt="Portrait photo">
+		</section>
+		<section class="topics-card" aria-label="About me sections">
+			<div class="about-sections">
+				<section class="about-section">
+					<h2>Career Background</h2>
+					<p>Add a short introduction to your career background here.</p>
+				</section>
+				<section class="about-section">
+					<h2>Interests</h2>
+					<p>Share a few interests or activities you enjoy here.</p>
+				</section>
+				<section class="about-section">
+					<h2>Future Goals</h2>
+					<p>Describe some of the goals you are working toward here.</p>
+				</section>
+			</div>
+		</section>
+	</main>
+</body>
+</html>
