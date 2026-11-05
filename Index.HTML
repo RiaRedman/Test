@@ -5,9 +5,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Home</title>
 	<link rel="stylesheet" href="navigation.css">
+	<link rel="stylesheet" href="back-to-top.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 	<style>
 		* {
 			box-sizing: border-box;
@@ -27,17 +28,17 @@
 		}
 
 		.home-title {
-			margin: 0 0 2.25rem;
+			margin: 0 0 1rem;
 			color: #ECD9CB;
 			font-family: "Playfair Display", Georgia, serif;
-			font-size: 3.5rem;
+			font-size: 3.75rem;
 			text-align: center;
 		}
 
 		.intro-row {
 			display: grid;
 			grid-template-columns: minmax(0, 1.1fr) minmax(15rem, 0.9fr);
-			align-items: center;
+			align-items: start;
 			gap: 2rem;
 		}
 
@@ -66,11 +67,50 @@
 			max-width: 18rem;
 			max-height: 22rem;
 			aspect-ratio: 4 / 5;
-			justify-self: center;
 			border: 1px solid #1C110F;
 			border-radius: 18px;
 			object-fit: cover;
 			box-shadow: 0 16px 36px rgb(0 0 0 / 32%);
+		}
+
+		.headshot-wrap {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.headshot-note {
+			position: relative;
+			width: min(100%, 18rem);
+			height: 5rem;
+			color: #ECD9CB;
+		}
+
+		.headshot-note span {
+			position: absolute;
+			bottom: 0.25rem;
+			left: 0.25rem;
+			font-family: "Caveat", cursive;
+			font-size: 1.8rem;
+			font-weight: 600;
+			transform: rotate(-7deg);
+		}
+
+		.headshot-note svg {
+			position: absolute;
+			right: 2rem;
+			bottom: 0;
+			width: 5rem;
+			height: 4.5rem;
+			overflow: visible;
+		}
+
+		.headshot-note path {
+			fill: none;
+			stroke: currentColor;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			stroke-width: 2.5;
 		}
 
 		.topics-card {
@@ -79,8 +119,8 @@
 
 		.about-sections {
 			display: grid;
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-			gap: 1.5rem;
+			grid-template-columns: 1fr;
+			gap: 2.5rem;
 		}
 
 		.about-section {
@@ -102,13 +142,126 @@
 			line-height: 1.7;
 		}
 
+		.interest-cards {
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 1rem;
+			margin-top: 1rem;
+		}
+
+		.interest-card {
+			display: grid;
+			place-items: center;
+			aspect-ratio: 1;
+			padding: 0.75rem;
+			border-radius: 14px;
+			background: #6a2832;
+			color: #ECD9CB;
+			text-align: center;
+			font-size: 1.15rem;
+			box-shadow: 0 8px 16px rgb(0 0 0 / 28%);
+			transform: translateY(-3px);
+		}
+
+		.goals-cards {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 1.5rem;
+			margin-top: 2rem;
+		}
+
+		.goals-card {
+			position: relative;
+			display: flex;
+			min-width: 0;
+			aspect-ratio: 1;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 2.5rem 1.25rem 1.25rem;
+			border-radius: 16px;
+			background: #6a2832;
+			color: #ECD9CB;
+			text-align: center;
+			box-shadow: 0 10px 20px rgb(0 0 0 / 28%);
+			transition: transform 180ms ease, box-shadow 180ms ease;
+		}
+
+		.goals-card:hover {
+			z-index: 1;
+			transform: scale(1.035);
+			box-shadow: 0 14px 26px rgb(0 0 0 / 36%);
+		}
+
+		.goals-card-icon {
+			position: absolute;
+			top: -1.5rem;
+			left: 50%;
+			display: grid;
+			width: 3rem;
+			height: 3rem;
+			place-items: center;
+			border: 2px solid #ECD9CB;
+			border-radius: 50%;
+			background: #6a2832;
+			font-size: 1.4rem;
+			transform: translateX(-50%);
+		}
+
+		.goals-card h3 {
+			margin: 0 0 0.6rem;
+			font-size: 1.15rem;
+		}
+
+		.goals-card p {
+			font-size: 0.95rem;
+			line-height: 1.55;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.goals-card {
+				transition: none;
+			}
+		}
+
+		.career-logos-wrapper {
+			margin-top: 1.5rem;
+		}
+
+		.career-logos-title {
+			margin: 0 0 0.65rem 0.75rem;
+			color: #ECD9CB;
+			font-size: 0.95rem;
+			font-weight: 600;
+		}
+
+		.career-logos {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			align-items: center;
+			gap: 1rem;
+			padding: 0.5rem 1rem;
+			border-radius: 12px;
+			background: #ECD9CB;
+		}
+
+		.career-logos img {
+			width: 100%;
+			height: 3rem;
+			object-fit: contain;
+		}
+
+		.career-logos .serco-logo {
+			height: 5rem;
+		}
+
 		@media (max-width: 600px) {
 			.home-main {
 				margin-top: 2rem;
 			}
 
 			.home-title {
-				font-size: 2.6rem;
+				font-size: 2.3rem;
 			}
 
 			.about-card {
@@ -135,6 +288,22 @@
 			.about-section {
 				padding: 1rem;
 			}
+
+			.interest-cards {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+			}
+
+			.goals-cards {
+				grid-template-columns: 1fr;
+				gap: 2rem;
+				margin: 2rem 0 0.5rem;
+			}
+
+			.goals-card {
+				aspect-ratio: auto;
+				min-height: 13rem;
+			}
+
 		}
 	</style>
 </head>
@@ -149,30 +318,76 @@
 		</ul>
 	</nav>
 	<main class="home-main">
-		<h1 class="home-title">Home Page</h1>
 		<section class="intro-row" aria-label="Introduction and photo">
-			<article class="about-card" aria-labelledby="about-title">
-				<h2 id="about-title">A Little About Me</h2>
-				<p>Add your introduction here when you're ready.</p>
-			</article>
-			<img class="headshot" src="images/headshot.jpeg" alt="Portrait photo">
+			<div>
+				<h1 class="home-title">Hi! Im Ria Redman</h1>
+				<article class="about-card" aria-labelledby="about-title">
+					<h2 id="about-title">A Little About Me</h2>
+					<p>I am a Level 5 Business Information Technology student at the University of Salford. I am passionate about developing my knowledge of technology and how it can be used to support businesses and improve decision-making.</p>
+				</article>
+			</div>
+			<div class="headshot-wrap">
+				<img class="headshot" src="images/headshot.jpeg" alt="Portrait photo">
+				<div class="headshot-note">
+					<span>This is me!</span>
+					<svg viewBox="0 0 80 72" aria-hidden="true">
+						<path d="M25 67 C34 54 46 46 45 32 C44 22 39 15 41 6"></path>
+						<path d="M31 13 C35 10 38 7 41 4 C44 7 47 10 51 12"></path>
+					</svg>
+				</div>
+			</div>
 		</section>
 		<section class="topics-card" aria-label="About me sections">
 			<div class="about-sections">
 				<section class="about-section">
 					<h2>Career Background</h2>
-					<p>Add a short introduction to your career background here.</p>
+					<p>Through previous roles across healthcare, public services, and hospitality, I have gained experience working in professional, customer-focused environments. My background has helped me develop strong communication, organisation, teamwork, and problem-solving skills while adapting to a variety of systems and workplace settings.</p>
+					<div class="career-logos-wrapper">
+						<h3 class="career-logos-title">Previous Employment:</h3>
+						<div class="career-logos" aria-label="Organizations where I have worked">
+							<img src="images/Hilton.png" alt="Hilton">
+							<img class="serco-logo" src="images/Serco.png" alt="Serco">
+							<img src="images/Vitahealthgroup.png" alt="Vita Health Group">
+						</div>
+					</div>
 				</section>
 				<section class="about-section">
 					<h2>Interests</h2>
-					<p>Share a few interests or activities you enjoy here.</p>
+					<div class="interest-cards">
+						<div class="interest-card">Data Analysis</div>
+						<div class="interest-card">Business Technology</div>
+						<div class="interest-card">Digital Transformation</div>
+						<div class="interest-card">Web Development</div>
+					</div>
 				</section>
 				<section class="about-section">
 					<h2>Future Goals</h2>
-					<p>Describe some of the goals you are working toward here.</p>
+					<div class="goals-cards">
+						<article class="goals-card">
+							<span class="goals-card-icon" role="img" aria-label="Chart">📊</span>
+							<h3>Data Analyst</h3>
+							<p>Using data to identify trends, solve problems, and support informed decision-making</p>
+						</article>
+						<article class="goals-card">
+							<span class="goals-card-icon" role="img" aria-label="Rocket">🚀</span>
+							<h3>Continuous Learning</h3>
+							<p>Expanding my technical knowledge through university projects, certifications, and practical experience.</p>
+						</article>
+						<article class="goals-card">
+							<span class="goals-card-icon" role="img" aria-label="Office building">🏢</span>
+							<h3>Professional Impact</h3>
+							<p>Helping organisations use data and technology to improve performance and drive business value.</p>
+						</article>
+					</div>
 				</section>
 			</div>
 		</section>
 	</main>
+	<button class="back-to-top" type="button" aria-label="Back to top" title="Back to top">
+		<svg viewBox="0 0 24 24" aria-hidden="true">
+			<path d="M12 19V5M6 11l6-6 6 6"></path>
+		</svg>
+	</button>
+	<script src="back-to-top.js"></script>
 </body>
 </html>

@@ -5,6 +5,436 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skills</title>
     <link rel="stylesheet" href="navigation.css">
+    <link rel="stylesheet" href="back-to-top.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: #340A14;
+            color: #ECD9CB;
+            font-family: Georgia, serif;
+        }
+
+        main {
+            display: grid;
+            width: min(100% - 2rem, 56rem);
+            gap: 2rem;
+            margin: 2rem auto 4rem;
+        }
+
+        h1 {
+            margin: 0;
+            color: #ECD9CB;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+
+        .qualification-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .skills-card {
+            padding: 2rem;
+            border: 1px solid #1C110F;
+            border-radius: 18px;
+            background: #531A23;
+            box-shadow: 0 16px 36px rgb(0 0 0 / 32%);
+        }
+
+        .skills-card h2 {
+            margin: 0 0 1rem;
+            color: #ECD9CB;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 1.75rem;
+        }
+
+        .skills-card ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .skills-card li {
+            padding: 1rem;
+            border-radius: 14px;
+            background: #6a2832;
+            color: #ECD9CB;
+            box-shadow: 0 8px 16px rgb(0 0 0 / 28%);
+        }
+
+        .technical-skills {
+            padding: 1.5rem 0;
+            border-top: 1px solid rgb(236 217 203 / 25%);
+            border-bottom: 1px solid rgb(236 217 203 / 25%);
+        }
+
+        .technical-skills > h2 {
+            margin: 0 0 1.5rem;
+            color: #ECD9CB;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 1.75rem;
+            text-align: center;
+        }
+
+        .skill-category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.5rem 2rem;
+        }
+
+        .skill-category {
+            position: relative;
+        }
+
+        .skill-category + .skill-category::before {
+            position: absolute;
+            top: 10%;
+            bottom: 10%;
+            left: -1rem;
+            width: 0;
+            border-left: 1px solid #1C110F;
+            content: "";
+        }
+
+        .skill-category h3 {
+            margin: 0 0 0.75rem;
+            color: #ECD9CB;
+            font-size: 1.1rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .skill-tags li {
+            padding: 0.5rem 0.85rem;
+            border: 1px solid rgb(236 217 203 / 35%);
+            border-radius: 999px;
+            background: #531A23;
+            color: #ECD9CB;
+            font-size: 0.95rem;
+            line-height: 1.3;
+            transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease;
+        }
+
+        .skill-tags li:hover {
+            transform: translateY(-2px);
+            border-color: #ECD9CB;
+            background: #ECD9CB;
+            color: #340A14;
+        }
+
+        .certification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+            gap: 1rem;
+        }
+
+        .certification-section {
+            padding: 0;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .certification-card {
+            display: grid;
+            align-content: start;
+            gap: 0.6rem;
+            padding: 1rem;
+            border-radius: 14px;
+            background: #6a2832;
+            color: #ECD9CB;
+            box-shadow: 0 8px 16px rgb(0 0 0 / 28%);
+        }
+
+        .certificate-preview {
+            width: 100%;
+            height: 10rem;
+            border: 0;
+            border-radius: 8px;
+            background: #ECD9CB;
+        }
+
+        .certification-logo {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .certification-card h3,
+        .certification-card p {
+            margin: 0;
+        }
+
+        .certification-card h3 {
+            font-size: 1.1rem;
+        }
+
+        .view-certificate,
+        .certificate-dialog-close {
+            justify-self: start;
+            padding: 0.4rem 0.8rem;
+            border: 1px solid #ECD9CB;
+            border-radius: 6px;
+            background: #ECD9CB;
+            color: #340A14;
+            font: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .view-certificate:hover,
+        .certificate-dialog-close:hover {
+            background: #531A23;
+            color: #ECD9CB;
+        }
+
+        .view-certificate:focus-visible,
+        .certificate-dialog-close:focus-visible {
+            outline: 2px solid #ECD9CB;
+            outline-offset: 3px;
+        }
+
+        .certificate-dialog {
+            width: min(90vw, 60rem);
+            max-width: none;
+            height: min(90vh, 50rem);
+            max-height: none;
+            padding: 1rem;
+            border: 1px solid #ECD9CB;
+            border-radius: 14px;
+            background: #531A23;
+            color: #ECD9CB;
+        }
+
+        .certificate-dialog::backdrop {
+            background: rgb(0 0 0 / 75%);
+        }
+
+        .certificate-dialog-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .certificate-dialog-header h2 {
+            margin: 0;
+            font-family: "Playfair Display", Georgia, serif;
+        }
+
+        .certificate-dialog iframe {
+            width: 100%;
+            height: calc(100% - 3.5rem);
+            border: 0;
+            border-radius: 8px;
+            background: #ECD9CB;
+        }
+
+        .work-experience > h2 {
+            margin: 0 0 1.5rem;
+            color: #ECD9CB;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 1.75rem;
+            text-align: center;
+        }
+
+        .work-experience {
+            width: min(100%, 42rem);
+            justify-self: center;
+        }
+
+        .experience-timeline {
+            position: relative;
+            display: grid;
+            gap: 2rem;
+            margin: 0;
+            padding: 1.5rem 0 0;
+            list-style: none;
+        }
+
+        .experience-timeline::before {
+            position: absolute;
+            top: 2rem;
+            bottom: 0.6rem;
+            left: 0.7rem;
+            width: 2px;
+            background: rgb(236 217 203 / 35%);
+            content: "";
+        }
+
+        .experience-entry {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1.5rem minmax(0, 1fr);
+            gap: 1rem;
+            transition: transform 180ms ease;
+        }
+
+        .experience-year {
+            position: absolute;
+            top: -1.4rem;
+            left: 0.75rem;
+            color: #ECD9CB;
+            font-size: 0.85rem;
+            font-weight: 700;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-50%);
+            transition: opacity 160ms ease;
+            white-space: nowrap;
+        }
+
+        .experience-entry:hover .experience-year,
+        .experience-entry:focus-within .experience-year {
+            opacity: 1;
+        }
+
+        .experience-entry::before {
+            position: relative;
+            z-index: 1;
+            width: 0.8rem;
+            height: 0.8rem;
+            margin: 0.55rem 0 0 0.35rem;
+            border: 2px solid #340A14;
+            border-radius: 50%;
+            background: #ECD9CB;
+            box-shadow: 0 0 0 2px #ECD9CB;
+            content: "";
+        }
+
+        .experience-entry:hover {
+            transform: translateX(4px);
+        }
+
+        .experience-content {
+            padding-bottom: 0.5rem;
+        }
+
+        .experience-heading {
+            display: flex;
+            width: fit-content;
+            max-width: 100%;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            padding: 0.4rem 0.75rem;
+            border-radius: 12px;
+            background: #ECD9CB;
+        }
+
+        .experience-logo {
+            width: 4.5rem;
+            height: 3rem;
+            flex: 0 0 4.5rem;
+            object-fit: contain;
+            object-position: left center;
+        }
+
+        .experience-heading h3 {
+            margin: 0;
+            color: #340A14;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 1.25rem;
+        }
+
+        .experience-role {
+            margin: 0 0 0.5rem;
+            color: #ECD9CB;
+            font-weight: 700;
+        }
+
+        .experience-skills {
+            display: grid;
+            gap: 0.35rem;
+            margin: 0;
+            padding-left: 1.25rem;
+            line-height: 1.6;
+        }
+
+        .qualification-details {
+            padding: 1rem;
+            border-radius: 14px;
+            background: #6a2832;
+            color: #ECD9CB;
+            line-height: 1.8;
+            box-shadow: 0 8px 16px rgb(0 0 0 / 28%);
+        }
+
+        .qualification-details p {
+            margin: 0;
+        }
+
+        .qualification-details p + p {
+            margin-top: 0.5rem;
+        }
+
+        .qualification-details ul {
+            display: block;
+            margin: 0.5rem 0 0;
+            padding-left: 1.5rem;
+            list-style: disc;
+        }
+
+        .qualification-details li {
+            padding: 0;
+            background: transparent;
+            list-style: disc;
+            box-shadow: none;
+        }
+
+        .university-logo {
+            display: block;
+            width: auto;
+            height: 5rem;
+            margin-bottom: 0.75rem;
+            filter: brightness(0) invert(1);
+        }
+
+        @media (max-width: 700px) {
+            .qualification-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skill-category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skill-category + .skill-category::before {
+                display: none;
+            }
+
+            .experience-heading {
+                align-items: flex-start;
+            }
+
+            .experience-logo {
+                width: 3.5rem;
+                height: 2.5rem;
+                flex-basis: 3.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="site-nav" aria-label="Main navigation">
@@ -16,19 +446,177 @@
             <li><a href="Problem%20Solving.HTML">Problem-Solving Page</a></li>
         </ul>
     </nav>
-    <h1>My Skills</h1>
-    <ul>
-        <li>Skill 1</li>
-        <li>Skill 2</li>
-        <li>Skill 3</li>
-    </ul>
+    <main>
+        <h1>Skills &amp; Experience</h1>
+        <section class="skills-card" aria-labelledby="education-heading">
+            <h2 id="education-heading">Education &amp; Qualifications</h2>
+            <div class="qualification-grid">
+                <div class="qualification-details">
+                    <img class="university-logo" src="https://www.salford.ac.uk/themes/custom/uos/img/icons/dark-logo.svg" alt="University of Salford logo">
+                    <p>BSc Business Information Technology (Level 5)</p>
+                    <p>Expected Graduation: 2028</p>
+                </div>
+                <div class="qualification-details">
+                    <img class="university-logo" src="https://www.leyton.ac.uk/wp-content/uploads/2024/07/Leyton-Yoast-696-x-696.png" alt="Leyton Sixth Form College logo">
+                    <p>Completed A Levels <em>(2017-2019)</em></p>
+                    <ul>
+                        <li>Photography</li>
+                        <li>Media Studies</li>
+                        <li>Criminology</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section class="technical-skills" aria-labelledby="technical-skills-heading">
+            <h2 id="technical-skills-heading">Technical Skills</h2>
+            <div class="skill-category-grid">
+                <section class="skill-category" aria-labelledby="web-development-heading">
+                    <h3 id="web-development-heading">💻 Web Development</h3>
+                    <ul class="skill-tags">
+                        <li>HTML5</li>
+                        <li>CSS3</li>
+                        <li>JavaScript</li>
+                    </ul>
+                </section>
+                <section class="skill-category" aria-labelledby="data-analytics-heading">
+                    <h3 id="data-analytics-heading">📊 Data &amp; Analytics</h3>
+                    <ul class="skill-tags">
+                        <li>Microsoft Excel</li>
+                        <li>Power BI</li>
+                        <li>Data Analysis</li>
+                        <li>Data Visualisation</li>
+                    </ul>
+                </section>
+                <section class="skill-category" aria-labelledby="business-technology-heading">
+                    <h3 id="business-technology-heading">🏢 Business Technology</h3>
+                    <ul class="skill-tags">
+                        <li>Digital Transformation</li>
+                        <li>Business Information Systems</li>
+                        <li>Requirements Analysis</li>
+                    </ul>
+                </section>
+            </div>
+        </section>
+        <section class="skills-card certification-section">
+            <h2>Certifications</h2>
+            <div class="certification-grid">
+                <article class="certification-card">
+                    <iframe class="certificate-preview" src="images/WORD.PDF#toolbar=0&amp;navpanes=0" title="Microsoft Word certificate preview" loading="lazy"></iframe>
+                    <img class="certification-logo" src="https://res.cdn.office.net/files/fabric-cdn-prod_20230815.002/assets/brand-icons/product/svg/word_32x1.svg" alt="">
+                    <h3>Microsoft Word</h3>
+                    <p>LinkedIn Learning</p>
+                    <button class="view-certificate" type="button" data-certificate="images/WORD.PDF" data-certificate-title="Microsoft Word">View</button>
+                </article>
+                <article class="certification-card">
+                    <iframe class="certificate-preview" src="images/POWERPOINT.PDF#toolbar=0&amp;navpanes=0" title="Microsoft PowerPoint certificate preview" loading="lazy"></iframe>
+                    <img class="certification-logo" src="https://res.cdn.office.net/files/fabric-cdn-prod_20230815.002/assets/brand-icons/product/svg/powerpoint_32x1.svg" alt="">
+                    <h3>Microsoft PowerPoint</h3>
+                    <p>LinkedIn Learning</p>
+                    <button class="view-certificate" type="button" data-certificate="images/POWERPOINT.PDF" data-certificate-title="Microsoft PowerPoint">View</button>
+                </article>
+                <article class="certification-card">
+                    <iframe class="certificate-preview" src="images/EXCEL.PDF#toolbar=0&amp;navpanes=0" title="Microsoft Excel certificate preview" loading="lazy"></iframe>
+                    <img class="certification-logo" src="https://res.cdn.office.net/files/fabric-cdn-prod_20230815.002/assets/brand-icons/product/svg/excel_32x1.svg" alt="">
+                    <h3>Microsoft Excel</h3>
+                    <p>LinkedIn Learning</p>
+                    <button class="view-certificate" type="button" data-certificate="images/EXCEL.PDF" data-certificate-title="Microsoft Excel">View</button>
+                </article>
+                <article class="certification-card">
+                    <iframe class="certificate-preview" src="images/OUTLOOK.PDF#toolbar=0&amp;navpanes=0" title="Microsoft Outlook certificate preview" loading="lazy"></iframe>
+                    <img class="certification-logo" src="https://res.cdn.office.net/files/fabric-cdn-prod_20230815.002/assets/brand-icons/product/svg/outlook_32x1.svg" alt="">
+                    <h3>Microsoft Outlook</h3>
+                    <p>LinkedIn Learning</p>
+                    <button class="view-certificate" type="button" data-certificate="images/OUTLOOK.PDF" data-certificate-title="Microsoft Outlook">View</button>
+                </article>
+            </div>
+        </section>
+        <section class="work-experience" aria-labelledby="work-experience-heading">
+            <h2 id="work-experience-heading">Work Experience</h2>
+            <ol class="experience-timeline">
+                <li class="experience-entry">
+                    <span class="experience-year">2023-current</span>
+                    <div class="experience-content">
+                        <div class="experience-heading">
+                            <img class="experience-logo" src="images/Vitahealthgroup.png" alt="Vita Health Group logo">
+                            <h3>VITA HEALTH GROUP</h3>
+                        </div>
+                        <p class="experience-role">Administrative Experience</p>
+                        <ul class="experience-skills">
+                            <li>Data handling and record management</li>
+                            <li>Communication and organisation skills</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="experience-entry">
+                    <span class="experience-year">2022-2023</span>
+                    <div class="experience-content">
+                        <div class="experience-heading">
+                            <img class="experience-logo" src="images/Hilton.png" alt="Hilton logo">
+                            <h3>HILTON</h3>
+                        </div>
+                        <p class="experience-role">Reception and Customer Service</p>
+                        <ul class="experience-skills">
+                            <li>Stakeholder communication</li>
+                            <li>Working in a fast-paced environment</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="experience-entry">
+                    <span class="experience-year">2021-2022</span>
+                    <div class="experience-content">
+                        <div class="experience-heading">
+                            <img class="experience-logo" src="images/Serco.png" alt="SERCO logo">
+                            <h3>SERCO</h3>
+                        </div>
+                        <p class="experience-role">NHS Covid Test Site Supervisor</p>
+                        <ul class="experience-skills">
+                            <li>Team coordination and operational support</li>
+                            <li>Leadership and problem-solving</li>
+                        </ul>
+                    </div>
+                </li>
+            </ol>
+        </section>
+    </main>
+    <dialog class="certificate-dialog" id="certificate-dialog" aria-labelledby="certificate-dialog-title">
+        <div class="certificate-dialog-header">
+            <h2 id="certificate-dialog-title">Certificate</h2>
+            <button class="certificate-dialog-close" type="button">Close</button>
+        </div>
+        <iframe title="Certificate document viewer"></iframe>
+    </dialog>
+    <button class="back-to-top" type="button" aria-label="Back to top" title="Back to top">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 19V5M6 11l6-6 6 6"></path>
+        </svg>
+    </button>
+    <script src="back-to-top.js"></script>
+    <script>
+        const certificateDialog = document.querySelector("#certificate-dialog");
+        const certificateFrame = certificateDialog.querySelector("iframe");
+        const certificateTitle = certificateDialog.querySelector("#certificate-dialog-title");
 
-    <h2>LinkedIn Certifications</h2>
-    <ul>
-        <li>Microsoft Word</li>
-        <li>Microsoft PowerPoint</li>
-        <li>Microsoft Excel</li>
-        <li>Microsoft Outlook</li>
-    </ul>
+        document.querySelectorAll(".view-certificate").forEach((button) => {
+            button.addEventListener("click", () => {
+                certificateTitle.textContent = button.dataset.certificateTitle;
+                certificateFrame.src = button.dataset.certificate;
+                certificateDialog.showModal();
+            });
+        });
+
+        certificateDialog.querySelector(".certificate-dialog-close").addEventListener("click", () => {
+            certificateDialog.close();
+        });
+
+        certificateDialog.addEventListener("click", (event) => {
+            if (event.target === certificateDialog) {
+                certificateDialog.close();
+            }
+        });
+
+        certificateDialog.addEventListener("close", () => {
+            certificateFrame.removeAttribute("src");
+        });
+    </script>
 </body>
 </html>
