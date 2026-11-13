@@ -4,21 +4,508 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Business Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="navigation.css">
     <link rel="stylesheet" href="back-to-top.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            color: #ECD9CB;
+            font-family: Georgia, serif;
+        }
+
+        h1,
+        h2 {
+            color: #ECD9CB;
+            font-family: "Playfair Display", Georgia, serif;
+        }
+
+        h1 {
+            margin: 0;
+            padding: 2rem 1.5rem 0;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+
+        .showcase-intro {
+            max-width: 62rem;
+            margin: -1rem auto 0;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .references-card {
+            width: 100%;
+            padding: 2rem 1rem;
+            border-top: 1px solid #1C110F;
+            border-bottom: 1px solid #1C110F;
+            background: #531A23;
+            text-align: center;
+        }
+
+        .references-card h2 {
+            margin: 0 0 1.25rem;
+            font-size: 1.75rem;
+        }
+
+        .references-card__list {
+            display: grid;
+            width: min(100%, 76rem);
+            gap: 1rem;
+            margin: 0 auto;
+            padding: 0;
+            list-style: none;
+        }
+
+        .references-card__list li {
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .references-card a {
+            color: #ECD9CB;
+        }
+
+        main {
+            display: grid;
+            width: min(100% - 2rem, 76rem);
+            gap: 2rem;
+            margin: 2rem auto 4rem;
+        }
+
+        .case-study {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: center;
+            min-height: 18rem;
+            padding: 2rem;
+            border: 1px solid #1C110F;
+            border-radius: 18px;
+            background: #531A23;
+            box-shadow: 0 16px 36px rgb(0 0 0 / 32%);
+        }
+
+        .case-study__visual {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            min-width: 0;
+            place-items: center;
+        }
+
+        .case-study__image {
+            display: block;
+            width: 100%;
+            max-height: 19rem;
+            object-fit: contain;
+        }
+
+        .computer-preview {
+            position: relative;
+            display: block;
+            width: calc(100% + 2rem);
+            margin-right: -2rem;
+            transform: rotate(-3deg);
+            transform-origin: center;
+            transition: transform 300ms ease;
+        }
+
+        .computer-preview__dashboard {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 300ms ease;
+        }
+
+        .computer-preview:hover,
+        .computer-preview:focus-visible {
+            transform: rotate(0deg) scale(1.12);
+        }
+
+        .computer-preview:hover .computer-preview__dashboard,
+        .computer-preview:focus-visible .computer-preview__dashboard {
+            opacity: 1;
+        }
+
+        .computer-preview:hover .computer-preview__computer,
+        .computer-preview:focus-visible .computer-preview__computer {
+            opacity: 0;
+        }
+
+        .computer-preview__computer {
+            transition: opacity 300ms ease;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .computer-preview,
+            .computer-preview__computer,
+            .computer-preview__dashboard {
+                transition: none;
+            }
+        }
+
+        .case-study__content {
+            position: relative;
+            z-index: 2;
+            padding: 1rem;
+        }
+
+        .case-study__content h2,
+        .case-study__content h3 {
+            margin: 0 0 1rem;
+            font-size: 1.75rem;
+            font-family: "Playfair Display", Georgia, serif;
+        }
+
+        .case-study__content p {
+            margin: 0;
+            line-height: 1.8;
+        }
+
+        .case-study__details p + p {
+            margin-top: 0.75rem;
+        }
+
+        .case-study__details strong {
+            font-size: 1.1rem;
+        }
+
+        .case-study__outcomes {
+            display: grid;
+            gap: 0.4rem;
+            margin: 0.5rem 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .case-study__outcomes li {
+            position: relative;
+            padding-left: 1.4rem;
+            line-height: 1.6;
+        }
+
+        .case-study__outcomes li::before {
+            position: absolute;
+            left: 0;
+            color: #ECD9CB;
+            content: "♥";
+        }
+
+        .restaurant-rationale {
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgb(236 217 203 / 35%);
+        }
+
+        .restaurant-rationale h4 {
+            margin: 0;
+            color: #ECD9CB;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 1.2rem;
+        }
+
+        .restaurant-rationale__grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 0.75rem;
+        }
+
+        .restaurant-rationale__grid > div {
+            padding: 1rem;
+            border: 1px solid rgb(236 217 203 / 16%);
+            border-radius: 12px;
+            background: #6a2832;
+        }
+
+        .restaurant-rationale__grid h5 {
+            margin: 0 0 0.35rem;
+            color: #ECD9CB;
+            font-size: 1rem;
+        }
+
+        .restaurant-rationale__grid p {
+            font-size: 0.9rem;
+        }
+
+        .case-study__button {
+            display: inline-block;
+            margin-top: 1.25rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            background: #1C110F;
+            color: #ECD9CB;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background-color 160ms ease, transform 160ms ease;
+        }
+
+        .case-study__button:hover,
+        .case-study__button:focus-visible {
+            background: #6a2832;
+            transform: translateY(-2px);
+        }
+
+        .case-study--computer {
+            padding: 0;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .case-study--computer .case-study__visual {
+            z-index: 3;
+        }
+
+        .case-study--computer .case-study__content {
+            width: 150%;
+            padding: 2rem;
+            padding-left: calc(25% + 2rem);
+            transform: translateX(-33.333%);
+            border: 1px solid #1C110F;
+            border-radius: 18px;
+            background: #531A23;
+            box-shadow: 0 16px 36px rgb(0 0 0 / 32%);
+        }
+
+        .case-study--phone {
+            padding: 0;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .case-study--phone .case-study__visual {
+            z-index: 3;
+            align-self: stretch;
+            grid-template-rows: minmax(0, 1fr) auto;
+            place-items: stretch;
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .case-study--phone .case-study__image {
+            width: calc(100% + 4rem);
+            height: 100%;
+            max-width: none;
+            max-height: none;
+            margin-right: -4rem;
+            object-fit: cover;
+            object-position: 10% center;
+            transform: translateX(2rem) rotate(3deg);
+        }
+
+        .case-study--phone .case-study__caption {
+            width: calc(100% + 4rem);
+            margin: 0.5rem -4rem 0 0;
+            color: #ECD9CB;
+            font-size: 0.75rem;
+            font-style: italic;
+            line-height: 1.4;
+            text-align: center;
+            transform: translateX(2rem);
+        }
+
+        .case-study--phone .case-study__content {
+            grid-column: 1;
+            grid-row: 1;
+            width: 150%;
+            padding: 2rem;
+            padding-right: calc(50% + 2rem);
+            border: 1px solid #1C110F;
+            border-radius: 18px;
+            background: #531A23;
+            box-shadow: 0 16px 36px rgb(0 0 0 / 32%);
+        }
+
+        .case-study--reversed .case-study__visual {
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .case-study--reversed .case-study__content {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        @media (max-width: 600px) {
+            .case-study {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+
+            .restaurant-rationale__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .case-study__visual,
+            .case-study--reversed .case-study__visual {
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            .case-study__content,
+            .case-study--reversed .case-study__content {
+                grid-column: 1;
+                grid-row: 2;
+                padding: 0;
+            }
+
+            .case-study--computer .case-study__content {
+                width: auto;
+                padding: 1rem 0 0;
+                transform: none;
+                border: 0;
+                background: transparent;
+                box-shadow: none;
+            }
+
+            .case-study--phone .case-study__content {
+                grid-column: 1;
+                grid-row: 2;
+                width: auto;
+                padding: 1.5rem;
+            }
+
+            .case-study--phone .case-study__visual {
+                grid-column: 1;
+                grid-row: 1;
+                grid-template-rows: auto auto;
+            }
+
+            .computer-preview {
+                width: min(100%, 22rem);
+                margin-right: 0;
+            }
+
+            .case-study--phone .case-study__image {
+                width: 100%;
+                height: auto;
+                max-height: 19rem;
+                margin-right: 0;
+                transform: rotate(3deg);
+            }
+
+            .case-study--phone .case-study__caption {
+                width: 100%;
+                margin: 0.5rem 0 0;
+                transform: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="site-nav" aria-label="Main navigation">
-        <ul>
-            <li><a href="Index.HTML">Home</a></li>
-            <li><a href="Contact.HTML">Contact</a></li>
-            <li><a href="Skills.HTML">Skills</a></li>
-            <li><a href="Business%20Showcase.HTML" aria-current="page">Business Showcase</a></li>
-            <li><a href="Problem%20Solving.HTML">Problem-Solving Page</a></li>
-        </ul>
+        <a class="site-nav__brand" href="Index.HTML" aria-label="Home"><img src="images/logo.png" alt="Ria Redman logo"></a>
+        <a class="site-nav__link" href="Index.HTML">Home</a>
+        <a class="site-nav__link" href="Contact.HTML">Contact</a>
+        <a class="site-nav__link" href="Skills.HTML">Skills</a>
+        <a class="site-nav__link" href="Business%20Showcase.HTML" aria-current="page">Business Showcase</a>
+        <a class="site-nav__link" href="Problem%20Solving.HTML">Problem-Solving Page</a>
     </nav>
-    <h1>Business Showcase</h1>
-    <p>This is a simple paragraph.</p>
+    <main>
+        <h1>Business Showcase</h1>
+        <p class="showcase-intro">This showcase highlights three applied projects spanning business intelligence data visualization, student wellbeing analytics, and front-end web development—demonstrating how technical solutions solve real-world operational and customer engagement challenges.</p>
+        <article class="case-study case-study--computer" aria-labelledby="project-one-title">
+            <div class="case-study__visual case-study__visual--overlap-right">
+                <span class="computer-preview" tabindex="0" role="img" aria-label="Computer preview. Hover or focus to view the Power BI dashboard.">
+                    <img class="case-study__image computer-preview__computer" src="images/Computer.png" alt="">
+                    <img class="case-study__image computer-preview__dashboard" src="images/dashboard.png" alt="">
+                </span>
+            </div>
+            <div class="case-study__content">
+                <h2 id="project-one-title">Project 1</h2>
+                <h3>CO2 Emmissions BI Dashboard</h3>
+                <div class="case-study__details">
+                    <p><strong>Role:</strong> Business Intelligence Developer</p>
+                    <p><strong>Problem:</strong> Transform complex raw datasets containing multi-decade global co2 emissions into an interactive and accessible dashboard suitable for a non-technical finance committee to understand, in order to support the residential retrofit programme bid of my client, the climate and sustainability lead of a local council.</p>
+                    <p><strong>Outcome:</strong></p>
+                    <ul class="case-study__outcomes">
+                        <li>Built interactive Power BI dashboard from raw data</li>
+                        <li>Engineered custom DAX KPI metrics for trend tracking</li>
+                        <li>Enabled real-time filtering via country slicers</li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+        <article class="case-study case-study--phone" aria-labelledby="project-two-title">
+            <div class="case-study__visual">
+                <img class="case-study__image" src="images/Phone.png" alt="Smartphone">
+                <p class="case-study__caption">App interface mockup adapted from Microsoft Copilot (2026); survey dataset sourced from Fitness Analysis (n.d.)</p>
+            </div>
+            <div class="case-study__content">
+                <h2 id="project-two-title">Project 2</h2>
+                <h3>Student Fitness Behaviour<br>&amp; Personalised BI App Concept</h3>
+                <div class="case-study__details">
+                    <p><strong>Role:</strong> Data Analyst &amp; App Concept Designer</p>
+                    <p><strong>Problem:</strong> investigated the &quot;intention–action gap&quot; in university student fitness. While 65.1% of surveyed students rated exercise as highly important, 50% exercised rarely or never due to busy schedules (38.29%), low motivation (23.55%), and fatigue (14.87%). We translated these findings into a personalised mobile BI dashboard concept to bridge the gap.</p>
+                    <p><strong>Outcome:</strong></p>
+                    <ul class="case-study__outcomes">
+                        <li>Analysed survey data across 545 university students</li>
+                        <li>Designed personalised mobile BI app concept</li>
+                        <li>Targeted time, motivation &amp; energy barriers</li>
+                        <li>Pitched data findings &amp; app solution to academic stakeholders</li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+        <article class="case-study case-study--computer case-study--restaurant" aria-labelledby="project-three-title">
+            <div class="case-study__visual case-study__visual--overlap-right">
+                <span class="computer-preview" tabindex="0" role="img" aria-label="Computer preview. Hover or focus to view the Power BI dashboard.">
+                    <img class="case-study__image computer-preview__computer" src="images/Computer.png" alt="">
+                    <img class="case-study__image computer-preview__dashboard" src="images/dashboard.png" alt="">
+                </span>
+            </div>
+            <div class="case-study__content">
+                <h2 id="project-three-title">Project 3</h2>
+                <h3>Local Restaurant Digital Transformation</h3>
+                <div class="case-study__details">
+                    <p><strong>Role:</strong> Chief Technology Officer</p>
+                    <p><strong>Problem:</strong> addressed the restaurant&apos;s reliance on outdated manual communication by designing a centralized web solution to boost customer engagement and streamline bookings.</p>
+                    <p><strong>Outcome:</strong></p>
+                    <ul class="case-study__outcomes">
+                        <li>Hand coded responsive web solution</li>
+                        <li>Intergrated social &amp; contact channels</li>
+                        <li>JavaScript automated email booking form</li>
+                    </ul>
+                    <section class="restaurant-rationale" aria-labelledby="restaurant-rationale-title">
+                        <h4 id="restaurant-rationale-title">Design Concept &amp; Rationale</h4>
+                        <div class="restaurant-rationale__grid">
+                            <div>
+                                <h5>UX flow</h5>
+                                <p>Visitors can move from the restaurant overview to menu, contact, and booking actions through a clear, predictable path.</p>
+                            </div>
+                            <div>
+                                <h5>Email generator</h5>
+                                <p>The booking form collects guest details and reservation preferences, then JavaScript assembles them into a ready-to-send email.</p>
+                            </div>
+                            <div>
+                                <h5>Responsive design</h5>
+                                <p>Flexible layouts and touch-friendly controls keep key information and booking actions clear across desktop, tablet, and mobile.</p>
+                            </div>
+                        </div>
+                    </section>
+                    <a class="case-study__button" href="Problem%20Solving.html">View Live Problem Solving Page</a>
+                </div>
+            </div>
+        </article>
+    </main>
+    <section class="references-card" aria-labelledby="references-title">
+        <h2 id="references-title">References &amp; Image Credits</h2>
+        <ul class="references-card__list">
+            <li>Ritchie, H., Rosado, P., &amp; Roser, M. (2023). <em>CO₂ and Greenhouse Gas Emissions</em>. Our World in Data. <a href="https://github.com/owid/co2-data">https://github.com/owid/co2-data</a></li>
+            <li><strong>Fitness Analysis. (n.d.).</strong> <em>Fitness analysis dataset</em> [Data set]. Kaggle. <a href="https://www.kaggle.com/datasets/nithilaa/fitness-analysis">https://www.kaggle.com/datasets/nithilaa/fitness-analysis</a></li>
+            <li><strong>Microsoft Copilot. (2026).</strong> <em>AI-generated exercise app dashboard mockup</em> [Digital image]. Microsoft.</li>
+        </ul>
+    </section>
     <button class="back-to-top" type="button" aria-label="Back to top" title="Back to top">
         <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 19V5M6 11l6-6 6 6"></path>
