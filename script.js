@@ -171,7 +171,15 @@ bookingForm.addEventListener("submit", (event) => {
     }
 
     const [year, month, day] = reservationDate.value.split("-").map(Number);
-    const formattedDate = new Date(year, month - 1, day).toLocaleDateString(undefined, {
+    const selectedDate = new Date(year, month - 1, day);
+
+    if (selectedDate.getDay() === 1) {
+        reservationConfirmation.textContent = "We are not open on Mondays. Please select another date.";
+        reservationMessage.hidden = false;
+        return;
+    }
+
+    const formattedDate = selectedDate.toLocaleDateString(undefined, {
         weekday: "long",
         year: "numeric",
         month: "long",
