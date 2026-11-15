@@ -3,9 +3,964 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Problem Solving</title>
+    <title>Problem Solving Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="navigation.css">
     <link rel="stylesheet" href="back-to-top.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: #340A14;
+            color: #ECD9CB;
+            font-family: Georgia, serif;
+        }
+
+        h1,
+        h2 {
+            color: #ECD9CB;
+            font-family: "Playfair Display", Georgia, serif;
+        }
+
+        main {
+            display: grid;
+            width: min(100% - 2rem, 76rem);
+            gap: 2rem;
+            margin: 2rem auto 4rem;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+
+        .case-study-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 2rem;
+        }
+
+        .case-study-card {
+            min-height: 18rem;
+            padding: 2rem;
+            border: 1px solid #1C110F;
+            border-radius: 18px;
+            background: #531A23;
+            box-shadow: 0 16px 36px rgb(0 0 0 / 32%);
+        }
+
+        .case-study-card h2 {
+            margin: 0 0 1rem;
+            font-size: 1.75rem;
+        }
+
+        .case-study-card p {
+            margin: 0;
+            line-height: 1.8;
+        }
+
+        .prototype-demo {
+            --prototype-terracotta: #bf634b;
+            --prototype-olive: #596746;
+            --prototype-cream: #f5eddf;
+            --prototype-espresso: #30251f;
+            overflow: hidden;
+            border: 2px solid var(--prototype-terracotta);
+            border-radius: 18px;
+            background: var(--prototype-cream);
+            color: var(--prototype-espresso);
+            box-shadow: 0 16px 36px rgb(0 0 0 / 32%);
+        }
+
+        .prototype-demo__label {
+            margin: 0;
+            padding: 0.8rem 1rem;
+            background: var(--prototype-terracotta);
+            color: var(--prototype-cream);
+            font-family: Georgia, serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-align: center;
+        }
+
+        .prototype-demo__header,
+        .prototype-demo__footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem clamp(1.25rem, 4vw, 3rem);
+            background: var(--prototype-espresso);
+            color: var(--prototype-cream);
+        }
+
+        .prototype-demo__brand {
+            margin: 0;
+            color: var(--prototype-cream);
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 1.35rem;
+            white-space: nowrap;
+        }
+
+        .prototype-demo__nav {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: flex-end;
+            gap: clamp(0.75rem, 1.5vw, 1.25rem);
+        }
+
+        .prototype-demo__nav a {
+            display: inline-block;
+            padding: 0.55rem 0;
+            color: var(--prototype-cream);
+            font-size: 0.9rem;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: color 160ms ease;
+        }
+
+        .prototype-demo__nav a:hover,
+        .prototype-demo__nav a:focus-visible {
+            color: var(--prototype-terracotta);
+        }
+
+        .prototype-demo__hero {
+            position: relative;
+            display: grid;
+            height: clamp(30rem, 42vw, 38rem);
+            place-items: center;
+            overflow: hidden;
+            padding: clamp(1rem, 3vw, 2rem);
+            background: var(--prototype-cream);
+        }
+
+        .prototype-demo__button {
+            display: inline-block;
+            padding: 0.8rem 1.2rem;
+            border-radius: 999px;
+            background: var(--prototype-olive);
+            color: var(--prototype-cream);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .prototype-demo__button:hover,
+        .prototype-demo__button:focus-visible {
+            background: var(--prototype-terracotta);
+        }
+
+        .prototype-demo__button--terracotta {
+            flex: 0 0 auto;
+            border-radius: 0;
+            background: var(--prototype-terracotta);
+            white-space: nowrap;
+        }
+
+        .prototype-demo__button--terracotta:hover,
+        .prototype-demo__button--terracotta:focus-visible {
+            background: var(--prototype-olive);
+        }
+
+        .prototype-demo__booking-toggle {
+            border: 0;
+            cursor: pointer;
+            font: inherit;
+            text-transform: uppercase;
+        }
+
+        .prototype-demo__booking-drawer {
+            display: flex;
+            width: 100%;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 1rem;
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 clamp(1.25rem, 4vw, 3rem);
+            background: var(--prototype-olive);
+            color: var(--prototype-cream);
+            opacity: 0;
+            transition: max-height 280ms ease, opacity 200ms ease, padding-block 280ms ease;
+        }
+
+        .prototype-demo__booking-drawer[hidden] {
+            display: none;
+        }
+
+        .prototype-demo__booking-drawer.is-open {
+            max-height: 48rem;
+            padding-block: 1.25rem;
+            opacity: 1;
+        }
+
+        .prototype-demo__booking-form {
+            display: flex;
+            width: 100%;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 1rem;
+        }
+
+        .prototype-demo__booking-field {
+            display: grid;
+            min-width: min(100%, 8rem);
+            flex: 1 1 8rem;
+            gap: 0.4rem;
+        }
+
+        .prototype-demo__booking-field--name,
+        .prototype-demo__booking-field--email {
+            flex-basis: 12rem;
+        }
+
+        .prototype-demo__booking-consent {
+            display: flex;
+            min-width: min(100%, 16rem);
+            flex: 2 1 16rem;
+            align-items: center;
+            gap: 0.6rem;
+            padding-bottom: 0.7rem;
+            color: var(--prototype-cream);
+        }
+
+        .prototype-demo__booking-consent input {
+            width: 1.15rem;
+            min-height: 1.15rem;
+            flex: 0 0 auto;
+            accent-color: var(--prototype-terracotta);
+        }
+
+        .prototype-demo__booking-consent label {
+            line-height: 1.5;
+        }
+
+        .prototype-demo__booking-field label {
+            color: var(--prototype-cream);
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .prototype-demo__booking-field input,
+        .prototype-demo__booking-field select {
+            width: 100%;
+            min-width: 0;
+            min-height: 2.8rem;
+            padding: 0.55rem 0.7rem;
+            border: 1px solid rgb(48 37 31 / 25%);
+            border-radius: 4px;
+            background: #fffaf1;
+            color: var(--prototype-espresso);
+            font: inherit;
+        }
+
+        .prototype-demo__booking-submit {
+            min-height: 2.8rem;
+            padding: 0.7rem 1.2rem;
+            border: 0;
+            border-radius: 0;
+            background: var(--prototype-terracotta);
+            color: var(--prototype-cream);
+            cursor: pointer;
+            font: inherit;
+            font-weight: 700;
+        }
+
+        .prototype-demo__booking-submit:hover,
+        .prototype-demo__booking-submit:focus-visible {
+            background: var(--prototype-espresso);
+        }
+
+        .prototype-demo__reservation-message {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            background: var(--prototype-cream);
+            color: var(--prototype-espresso);
+        }
+
+        .prototype-demo__reservation-message p {
+            margin: 0;
+            color: var(--prototype-espresso);
+            line-height: 1.6;
+        }
+
+        .prototype-demo__contact-form {
+            display: grid;
+            gap: 1rem;
+            max-width: 58rem;
+            margin: 0 auto;
+        }
+
+        .prototype-demo__contact-fields {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .prototype-demo__contact-field {
+            display: grid;
+            gap: 0.35rem;
+        }
+
+        .prototype-demo__contact-field--wide {
+            grid-column: 1 / -1;
+        }
+
+        .prototype-demo__contact-field label {
+            color: var(--prototype-espresso);
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .prototype-demo__contact-field input,
+        .prototype-demo__contact-field select,
+        .prototype-demo__contact-field textarea {
+            box-sizing: border-box;
+            width: 100%;
+            min-height: 2.9rem;
+            padding: 0.65rem 0.75rem;
+            border: 1px solid rgb(48 37 31 / 25%);
+            border-radius: 4px;
+            background: #fffaf1;
+            color: var(--prototype-espresso);
+            font: inherit;
+        }
+
+        .prototype-demo__contact-field textarea {
+            min-height: 8rem;
+            resize: vertical;
+        }
+
+        .prototype-demo__contact-consent {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            color: var(--prototype-espresso);
+        }
+
+        .prototype-demo__contact-consent input {
+            width: 1.15rem;
+            height: 1.15rem;
+            flex: 0 0 auto;
+            margin: 0.2rem 0 0;
+            accent-color: var(--prototype-terracotta);
+        }
+
+        .prototype-demo__contact-consent label {
+            line-height: 1.5;
+        }
+
+        .prototype-demo__contact-submit,
+        .prototype-demo__contact-mailto {
+            display: inline-block;
+            width: fit-content;
+            padding: 0.65rem 1rem;
+            border: 0;
+            background: var(--prototype-terracotta);
+            color: var(--prototype-cream);
+            cursor: pointer;
+            font: inherit;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .prototype-demo__contact-submit:hover,
+        .prototype-demo__contact-submit:focus-visible,
+        .prototype-demo__contact-mailto:hover,
+        .prototype-demo__contact-mailto:focus-visible {
+            background: var(--prototype-espresso);
+        }
+
+        .prototype-demo__contact-output {
+            max-width: 58rem;
+            margin: 1.25rem auto 0;
+            padding: 1rem;
+            border: 1px solid rgb(191 99 75 / 40%);
+            border-top: 3px solid var(--prototype-terracotta);
+            border-radius: 8px;
+            background: #fffaf1;
+            color: var(--prototype-espresso);
+        }
+
+        .prototype-demo__contact-output h3 {
+            margin: 0 0 0.65rem;
+            color: var(--prototype-espresso);
+            font-family: "Playfair Display", Georgia, serif;
+        }
+
+        .prototype-demo__contact-preview {
+            margin: 0 0 0.75rem;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            line-height: 1.65;
+        }
+
+        .prototype-demo__contact-info {
+            display: grid;
+            justify-items: center;
+            gap: 1rem;
+            margin: 2rem auto 0;
+            text-align: center;
+        }
+
+        .prototype-demo__contact-info-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.6rem 1.5rem;
+        }
+
+        .prototype-demo__contact-info a {
+            color: var(--prototype-espresso);
+            text-decoration-color: var(--prototype-terracotta);
+            text-underline-offset: 0.2em;
+        }
+
+        .prototype-demo__contact-socials {
+            display: flex;
+            justify-content: center;
+            gap: 0.85rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .prototype-demo__contact-socials a {
+            display: grid;
+            width: 2.75rem;
+            height: 2.75rem;
+            place-items: center;
+            border: 1px solid rgb(191 99 75 / 45%);
+            border-radius: 50%;
+            color: var(--prototype-terracotta);
+        }
+
+        .prototype-demo__contact-socials a:hover,
+        .prototype-demo__contact-socials a:focus-visible {
+            background: var(--prototype-terracotta);
+            color: var(--prototype-cream);
+        }
+
+        .prototype-demo__contact-socials svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            fill: currentColor;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .prototype-demo__booking-drawer {
+                transition: none;
+            }
+        }
+
+        .prototype-demo__hero-art {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            width: 100%;
+            height: 100%;
+            min-width: 0;
+            place-items: center;
+            isolation: isolate;
+        }
+
+        .prototype-demo__hero-copy {
+            position: relative;
+            grid-area: 1 / 1;
+            width: max-content;
+            max-width: calc(100% - 2rem);
+        }
+
+        .prototype-demo__hero-tagline {
+            position: relative;
+            z-index: 2;
+            width: 49%;
+            margin: 0 0 0.35rem;
+            color: var(--prototype-olive);
+            font-family: "Segoe Print", "Bradley Hand", cursive;
+            font-size: clamp(0.75rem, 1.4vw, 1.1rem);
+            font-style: italic;
+            font-weight: 600;
+            line-height: 1.15;
+        }
+
+        .prototype-demo__hero-word {
+            position: relative;
+            z-index: 0;
+            margin: 0;
+            padding: 0;
+            color: var(--prototype-terracotta);
+            font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+            font-size: clamp(3rem, 21vw, 17rem);
+            font-weight: 900;
+            letter-spacing: -0.045em;
+            line-height: 0.85;
+            text-align: center;
+            white-space: nowrap;
+            opacity: 1;
+        }
+
+        .prototype-demo__hero-art img {
+            position: relative;
+            grid-area: 1 / 1;
+            z-index: 1;
+            display: block;
+            width: auto;
+            height: clamp(24rem, 39vw, 31.25rem);
+            max-width: 80%;
+            object-fit: contain;
+        }
+
+        .prototype-demo__menu,
+        .prototype-demo__story,
+        .prototype-demo__find-us,
+        .prototype-demo__contact,
+        .prototype-demo__booking {
+            padding: clamp(1.5rem, 4vw, 3rem);
+        }
+
+        .prototype-demo__menu {
+            display: grid;
+            grid-template-columns: minmax(13rem, 0.75fr) minmax(0, 2fr);
+            padding: 0;
+            background: #fff;
+        }
+
+        .prototype-demo__menu-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: clamp(1.5rem, 4vw, 3rem);
+            background: var(--prototype-olive);
+            color: var(--prototype-cream);
+        }
+
+        .prototype-demo__menu-title {
+            margin: 0;
+            color: var(--prototype-cream);
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+        }
+
+        .prototype-demo__menu-categories {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .prototype-demo__menu-category {
+            min-height: 2.75rem;
+            padding: 0.7rem 1rem;
+            border: 1px solid var(--prototype-cream);
+            border-radius: 999px;
+            background: var(--prototype-cream);
+            color: var(--prototype-olive);
+            cursor: pointer;
+            font: inherit;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .prototype-demo__menu-category[aria-pressed="true"],
+        .prototype-demo__menu-category:hover {
+            border-color: var(--prototype-terracotta);
+            background: var(--prototype-terracotta);
+            color: var(--prototype-cream);
+        }
+
+        .prototype-demo__menu-category:focus-visible {
+            outline: 3px solid var(--prototype-cream);
+            outline-offset: 3px;
+        }
+
+        .prototype-demo__menu-content {
+            min-width: 0;
+            padding: clamp(1.5rem, 4vw, 3rem);
+            background: #fff;
+        }
+
+        .prototype-demo__menu-category-title {
+            margin: 0 0 1.5rem;
+            color: var(--prototype-olive);
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+        }
+
+        .prototype-demo__menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-auto-rows: 1fr;
+            gap: 1rem;
+        }
+
+        .prototype-demo__dish {
+            padding: 1.25rem;
+            border: 1px solid rgb(48 37 31 / 15%);
+            border-radius: 14px;
+            background: var(--prototype-cream);
+        }
+
+        .prototype-demo__dish--with-image {
+            position: relative;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .prototype-demo__dish-image-wrap {
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 50%;
+            overflow: hidden;
+        }
+
+        .prototype-demo__dish-image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .prototype-demo__dish-content {
+            min-width: 0;
+            margin-left: 50%;
+            padding: 0.85rem;
+        }
+
+        .prototype-demo__dish h4 {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin: 0 0 0.6rem;
+            color: var(--prototype-olive);
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 1.1rem;
+        }
+
+        .prototype-demo__dish h4 span:first-child {
+            min-width: 0;
+        }
+
+        .prototype-demo__dish h4 span:last-child {
+            flex: 0 0 auto;
+            white-space: nowrap;
+        }
+
+        .prototype-demo__dish p {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .prototype-demo__dish-content h4 {
+            font-size: 0.95rem;
+        }
+
+        .prototype-demo__dish-content p {
+            font-size: 0.85rem;
+            line-height: 1.35;
+        }
+
+        .prototype-demo__story {
+            display: grid;
+            grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+            align-items: center;
+            gap: clamp(1.5rem, 4vw, 3.5rem);
+            border-top: 5px solid var(--prototype-terracotta);
+            background: var(--prototype-cream);
+            color: var(--prototype-espresso);
+        }
+
+        .prototype-demo__story-image {
+            min-width: 0;
+            min-height: 26rem;
+            margin: 0;
+        }
+
+        .prototype-demo__story-image img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-height: 26rem;
+            border-radius: 16px;
+            object-fit: cover;
+        }
+
+        .prototype-demo__story-content {
+            min-width: 0;
+        }
+
+        .prototype-demo__story-eyebrow {
+            margin: 0 0 0.65rem;
+            color: var(--prototype-terracotta);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+        }
+
+        .prototype-demo__story-title {
+            margin: 0 0 1rem;
+            color: var(--prototype-espresso);
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+            line-height: 1.15;
+        }
+
+        .prototype-demo__story-copy {
+            margin: 0;
+            line-height: 1.8;
+        }
+
+        .prototype-demo__story-highlights {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .prototype-demo__story-highlight {
+            padding: 1rem;
+            border: 1px solid rgb(191 99 75 / 35%);
+            border-top: 3px solid var(--prototype-terracotta);
+            border-radius: 8px;
+            background: #fffaf1;
+        }
+
+        .prototype-demo__story-highlight h3 {
+            margin: 0 0 0.45rem;
+            color: var(--prototype-espresso);
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 1rem;
+            line-height: 1.3;
+        }
+
+        .prototype-demo__story-highlight p {
+            margin: 0;
+            line-height: 1.8;
+        }
+
+        .prototype-demo__find-us {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 2rem;
+            border-top: 3px solid var(--prototype-terracotta);
+            border-bottom: 3px solid var(--prototype-terracotta);
+            background: var(--prototype-olive);
+            color: var(--prototype-cream);
+        }
+
+        .prototype-demo__find-us-map {
+            display: block;
+            width: 100%;
+            min-height: 22rem;
+            border: 0;
+            border-radius: 14px;
+        }
+
+        .prototype-demo__find-us-eyebrow {
+            display: inline-block;
+            margin: 0 0 0.8rem;
+            padding: 0.35rem 0.6rem;
+            border: 1px solid var(--prototype-terracotta);
+            border-radius: 3px;
+            background: var(--prototype-terracotta);
+            color: var(--prototype-cream);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+        }
+
+        .prototype-demo__find-us h2 {
+            margin: 0 0 1rem;
+            color: var(--prototype-cream);
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(1.8rem, 3.4vw, 2.5rem);
+            line-height: 1.2;
+        }
+
+        .prototype-demo__find-us h3 {
+            margin: 1.25rem 0 0.45rem;
+            color: var(--prototype-cream);
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 1.15rem;
+        }
+
+        .prototype-demo__find-us p {
+            margin: 0 0 0.85rem;
+            line-height: 1.7;
+        }
+
+        .prototype-demo__find-us a:not(.prototype-demo__find-us-social) {
+            color: var(--prototype-cream);
+            text-decoration-color: var(--prototype-terracotta);
+            text-underline-offset: 0.2em;
+        }
+
+        .prototype-demo__find-us-socials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            margin-top: 1.25rem;
+        }
+
+        .prototype-demo__find-us-social {
+            display: inline-block;
+            padding: 0.65rem 0.9rem;
+            border: 1px solid var(--prototype-terracotta);
+            border-radius: 4px;
+            background: var(--prototype-terracotta);
+            color: var(--prototype-cream);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .prototype-demo__find-us-social:hover,
+        .prototype-demo__find-us-social:focus-visible {
+            border-color: var(--prototype-cream);
+            background: var(--prototype-cream);
+            color: var(--prototype-olive);
+        }
+
+        .prototype-demo__contact {
+            background: var(--prototype-cream);
+            color: var(--prototype-espresso);
+        }
+
+        .prototype-demo__contact h2 {
+            margin: 0 0 0.6rem;
+            color: var(--prototype-espresso);
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+        }
+
+        .prototype-demo__contact-intro {
+            max-width: 54rem;
+            margin: 0 auto 1.75rem;
+            text-align: center;
+        }
+
+        .prototype-demo__contact-intro p {
+            margin: 0;
+            line-height: 1.8;
+        }
+
+        .prototype-demo__contact-eyebrow {
+            margin: 0 0 0.5rem;
+            color: var(--prototype-terracotta);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+        }
+
+        .prototype-demo__booking h2 {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+        }
+
+        .prototype-demo__booking p {
+            margin: 0;
+            line-height: 1.8;
+        }
+
+        .prototype-demo__booking {
+            background: var(--prototype-olive);
+            color: var(--prototype-cream);
+            text-align: center;
+        }
+
+        .prototype-demo__booking h2 {
+            color: var(--prototype-cream);
+        }
+
+        .prototype-demo__booking p {
+            max-width: 42rem;
+            margin: 0 auto 1.25rem;
+        }
+
+        .prototype-demo__booking .prototype-demo__button {
+            background: var(--prototype-terracotta);
+        }
+
+        .prototype-demo__booking .prototype-demo__button:hover,
+        .prototype-demo__booking .prototype-demo__button:focus-visible {
+            background: var(--prototype-espresso);
+        }
+
+        .prototype-demo__footer {
+            justify-content: center;
+            text-align: center;
+        }
+
+        @media (max-width: 700px) {
+            .case-study-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .prototype-demo__hero {
+                height: 26rem;
+            }
+
+            .prototype-demo__hero-art img {
+                width: 82%;
+                height: 22rem;
+                max-width: 82%;
+            }
+
+            .prototype-demo__hero-word {
+                font-size: clamp(1.75rem, 10vw, 2.4rem);
+            }
+
+            .prototype-demo__header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .prototype-demo__menu {
+                grid-template-columns: 1fr;
+            }
+
+            .prototype-demo__story {
+                grid-template-columns: 1fr;
+            }
+
+            .prototype-demo__story-image,
+            .prototype-demo__story-image img {
+                min-height: 0;
+            }
+
+            .prototype-demo__story-image img {
+                aspect-ratio: 4 / 3;
+            }
+
+            .prototype-demo__story-highlights {
+                grid-template-columns: 1fr;
+            }
+
+            .prototype-demo__menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .prototype-demo__menu-categories {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .prototype-demo__find-us {
+                grid-template-columns: 1fr;
+            }
+
+            .prototype-demo__contact-fields {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="site-nav" aria-label="Main navigation">
@@ -16,13 +971,236 @@
         <a class="site-nav__link" href="Business%20Showcase.HTML">Business Showcase</a>
         <a class="site-nav__link" href="Problem%20Solving.HTML" aria-current="page">Problem-Solving Page</a>
     </nav>
-    <h1>Problem Solving</h1>
-    <p>This is a simple paragraph.</p>
+    <main>
+        <h1>Problem Solving Case Study</h1>
+        <section class="case-study-grid" aria-label="Case study details">
+            <article class="case-study-card" aria-labelledby="business-context-title">
+                <h2 id="business-context-title">CTO Business Context</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vitae sapien, facilisis posuere, interdum neque, vulputate blandit, and responsive solutions for growing teams.</p>
+            </article>
+            <article class="case-study-card" aria-labelledby="design-choices-title">
+                <h2 id="design-choices-title">Strategic Design Choices</h2>
+                <p>Praesent commodo, lectus at feugiat varius, magna augue consequat, posuere arcu, tincidunt creative, scalable pathways, thoughtful decisions, measurable outcomes, and lasting value.</p>
+            </article>
+        </section>
+        <section class="prototype-demo" aria-labelledby="prototype-demo-title">
+            <p class="prototype-demo__label" id="prototype-demo-title">LIVE PROTOTYPE DEMO: VERDE &amp; GRANO</p>
+            <header class="prototype-demo__header">
+                <p class="prototype-demo__brand">Verde &amp; Grano</p>
+                <nav class="prototype-demo__nav" aria-label="Verde and Grano navigation">
+                    <a href="#restaurant-home">Home</a>
+                    <a href="#restaurant-menu">Menu</a>
+                    <a href="#restaurant-about">About</a>
+                    <a href="#restaurant-find-us">Find Us</a>
+                    <a href="#restaurant-contact">Contact Us</a>
+                </nav>
+                <button class="prototype-demo__button prototype-demo__button--terracotta prototype-demo__booking-toggle" id="restaurant-booking-toggle" type="button" aria-controls="restaurant-booking-drawer" aria-expanded="false">Book A Table</button>
+            </header>
+            <section class="prototype-demo__booking-drawer" id="restaurant-booking-drawer" aria-label="Book a table" hidden>
+                <form class="prototype-demo__booking-form" id="restaurant-booking-form">
+                    <div class="prototype-demo__booking-field">
+                        <label for="reservation-date">Date</label>
+                        <input id="reservation-date" name="date" type="date" required>
+                    </div>
+                    <div class="prototype-demo__booking-field">
+                        <label for="reservation-time">Time</label>
+                        <select id="reservation-time" name="time">
+                            <option value="1:00 PM">1:00 PM</option>
+                            <option value="2:00 PM">2:00 PM</option>
+                            <option value="3:00 PM">3:00 PM</option>
+                            <option value="4:00 PM">4:00 PM</option>
+                            <option value="5:00 PM">5:00 PM</option>
+                            <option value="6:00 PM" selected>6:00 PM</option>
+                            <option value="7:00 PM">7:00 PM</option>
+                            <option value="8:00 PM">8:00 PM</option>
+                        </select>
+                    </div>
+                    <div class="prototype-demo__booking-field">
+                        <label for="reservation-party-size">Party Size</label>
+                        <select id="reservation-party-size" name="party-size">
+                            <option value="1 Guest">1 Guest</option>
+                            <option value="2 Guests" selected>2 Guests</option>
+                            <option value="3 Guests">3 Guests</option>
+                            <option value="4 Guests">4 Guests</option>
+                            <option value="5 Guests">5 Guests</option>
+                            <option value="6+ Guests">6+ Guests</option>
+                        </select>
+                    </div>
+                    <div class="prototype-demo__booking-field prototype-demo__booking-field--name">
+                        <label for="reservation-name">Name</label>
+                        <input id="reservation-name" name="name" type="text" autocomplete="name" required>
+                    </div>
+                    <div class="prototype-demo__booking-field prototype-demo__booking-field--email">
+                        <label for="reservation-email">Email</label>
+                        <input id="reservation-email" name="email" type="email" autocomplete="email" required>
+                    </div>
+                    <div class="prototype-demo__booking-consent">
+                        <input id="reservation-consent" name="consent" type="checkbox" required>
+                        <label for="reservation-consent">I agree to the cookie policy and booking terms</label>
+                    </div>
+                    <button class="prototype-demo__booking-submit" type="submit">BOOK NOW</button>
+                </form>
+                <div class="prototype-demo__reservation-message" id="reservation-message" role="status" aria-live="polite" hidden>
+                    <p id="reservation-confirmation"></p>
+                </div>
+            </section>
+            <section class="prototype-demo__hero" id="restaurant-home" aria-labelledby="restaurant-hero-title">
+                <div class="prototype-demo__hero-art">
+                    <div class="prototype-demo__hero-copy">
+                        <p class="prototype-demo__hero-tagline">Freshly made Halal Italian pasta &amp; mocktail bar in the heart of Manchester.</p>
+                        <h2 class="prototype-demo__hero-word" id="restaurant-hero-title">HANDMADE</h2>
+                    </div>
+                    <img src="images/handmade-transparent.png" alt="Handmade pasta served on a fork above a bowl of pasta">
+                </div>
+            </section>
+            <section class="prototype-demo__menu" id="restaurant-menu" aria-labelledby="restaurant-menu-title">
+                <aside class="prototype-demo__menu-sidebar" aria-label="Menu categories">
+                    <h2 class="prototype-demo__menu-title" id="restaurant-menu-title">Our Menu</h2>
+                    <div class="prototype-demo__menu-categories" role="group" aria-label="Choose a menu category">
+                        <button class="prototype-demo__menu-category" type="button" data-menu-category="Starters" aria-controls="restaurant-menu-items" aria-pressed="true">Starters</button>
+                        <button class="prototype-demo__menu-category" type="button" data-menu-category="Pasta" aria-controls="restaurant-menu-items" aria-pressed="false">Pasta</button>
+                        <button class="prototype-demo__menu-category" type="button" data-menu-category="Pizza" aria-controls="restaurant-menu-items" aria-pressed="false">Pizza</button>
+                        <button class="prototype-demo__menu-category" type="button" data-menu-category="Sides" aria-controls="restaurant-menu-items" aria-pressed="false">Sides</button>
+                        <button class="prototype-demo__menu-category" type="button" data-menu-category="Desserts" aria-controls="restaurant-menu-items" aria-pressed="false">Desserts</button>
+                        <button class="prototype-demo__menu-category" type="button" data-menu-category="Drinks" aria-controls="restaurant-menu-items" aria-pressed="false">Drinks</button>
+                    </div>
+                </aside>
+                <div class="prototype-demo__menu-content">
+                    <h3 class="prototype-demo__menu-category-title" id="restaurant-menu-category-title" aria-live="polite">Starters</h3>
+                    <div class="prototype-demo__menu-grid" id="restaurant-menu-items"></div>
+                </div>
+            </section>
+            <section class="prototype-demo__story" id="restaurant-about" aria-labelledby="restaurant-story-title">
+                <figure class="prototype-demo__story-image">
+                    <img src="images/interior.jpg" alt="The Verde &amp; Grano dining room with warm lighting and natural details">
+                </figure>
+                <div class="prototype-demo__story-content">
+                    <p class="prototype-demo__story-eyebrow">OUR STORY</p>
+                    <h2 class="prototype-demo__story-title" id="restaurant-story-title">Authentic Italian Craft, 100% Halal</h2>
+                    <p class="prototype-demo__story-copy">Founded in central Manchester, Verde &amp; Grano was created with a simple belief: everyone should be able to experience traditional, hand-rolled Italian pasta culture without compromising on dietary values. Every morning, our kitchen extrudes and shapes fresh durum wheat pasta from scratch, pairing slow-simmered sauces with HMC-certified Halal meats and vegetarian-rennet cheeses. Instead of wine and liqueurs, our bar crafts zero-proof botanical spritzes infused with Mediterranean citrus and fresh herbs—delivering vibrant, modern casual dining in an alcohol-free space.</p>
+                    <div class="prototype-demo__story-highlights" aria-label="Our highlights">
+                        <article class="prototype-demo__story-highlight">
+                            <h3>Rolled Fresh Daily</h3>
+                            <p>Handmade pasta shaped every morning in-house.</p>
+                        </article>
+                        <article class="prototype-demo__story-highlight">
+                            <h3>100% Halal &amp; Alcohol-Free</h3>
+                            <p>Zero pork, zero lard, and zero cooking alcohol across the entire kitchen.</p>
+                        </article>
+                        <article class="prototype-demo__story-highlight">
+                            <h3>Botanical Spritz Bar</h3>
+                            <p>House-made non-alcoholic aperitifs and Italian sodas.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+            <section class="prototype-demo__find-us" id="restaurant-find-us" aria-labelledby="restaurant-find-us-title">
+                <iframe class="prototype-demo__find-us-map" src="https://www.google.com/maps?q=M3+4LQ,+Manchester&amp;output=embed" title="Map showing Deansgate, Manchester, M3 4LQ" loading="lazy"></iframe>
+                <div class="prototype-demo__find-us-content">
+                    <p class="prototype-demo__find-us-eyebrow">VISIT US IN MANCHESTER</p>
+                    <h2 id="restaurant-find-us-title">Find Us &amp; Opening Hours</h2>
+                    <p><strong>18 Deansgate, Manchester, M3 4LQ</strong></p>
+                    <p>Located a 3-minute walk from Deansgate-Castlefield Metrolink station and steps from Spinningfields, ideal for weekday lunches, pre-theatre dinners, and relaxed weekend evenings.</p>
+                    <h3>Opening Hours</h3>
+                    <p>Tue–Thu: 1:00 PM – 10:00 PM | Fri–Sat: 1:00 PM – 11:00 PM | Sun: 1:00 PM – 9:00 PM (Closed Mondays)</p>
+                    <p><a href="tel:+441614960812">0161 496 0812</a><br><a href="mailto:hello@verdegrano.co.uk">hello@verdegrano.co.uk</a></p>
+                    <nav class="prototype-demo__find-us-socials" aria-label="Verde and Grano social media">
+                        <a class="prototype-demo__find-us-social" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
+                        <a class="prototype-demo__find-us-social" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook</a>
+                        <a class="prototype-demo__find-us-social" href="https://x.com/" target="_blank" rel="noopener noreferrer">X</a>
+                    </nav>
+                </div>
+            </section>
+            <section class="prototype-demo__contact" id="restaurant-contact" aria-labelledby="restaurant-contact-title">
+                <div class="prototype-demo__contact-intro">
+                    <p class="prototype-demo__contact-eyebrow">CONTACT US</p>
+                    <h2 id="restaurant-contact-title">Get in Touch</h2>
+                    <p>Planning a private Halal celebration, have a dietary question, or want to share feedback? Fill out the form below to generate a ready-to-send inquiry email.</p>
+                </div>
+                <form class="prototype-demo__contact-form" id="contact-email-form">
+                    <div class="prototype-demo__contact-fields">
+                        <div class="prototype-demo__contact-field">
+                            <label for="contact-name">Full Name</label>
+                            <input id="contact-name" name="name" type="text" autocomplete="name" required>
+                        </div>
+                        <div class="prototype-demo__contact-field">
+                            <label for="contact-email">Email Address</label>
+                            <input id="contact-email" name="email" type="email" autocomplete="email" required>
+                        </div>
+                        <div class="prototype-demo__contact-field prototype-demo__contact-field--wide">
+                            <label for="contact-topic">Inquiry Topic</label>
+                            <select id="contact-topic" name="topic" required>
+                                <option value="" selected disabled>Select a topic</option>
+                                <option value="General Question">General Question</option>
+                                <option value="Private Dining &amp; Halal Catering">Private Dining &amp; Halal Catering</option>
+                                <option value="Dietary &amp; Allergen Question">Dietary &amp; Allergen Question</option>
+                                <option value="Customer Feedback">Customer Feedback</option>
+                            </select>
+                        </div>
+                        <div class="prototype-demo__contact-field prototype-demo__contact-field--wide">
+                            <label for="contact-msg">Message</label>
+                            <textarea id="contact-msg" name="message" rows="4" required></textarea>
+                        </div>
+                    </div>
+                    <div class="prototype-demo__contact-consent">
+                        <input id="contact-consent" name="consent" type="checkbox" required>
+                        <label for="contact-consent">I agree to the cookie and privacy policy</label>
+                    </div>
+                    <button class="prototype-demo__contact-submit" type="submit">Generate Email Message</button>
+                </form>
+                <div class="prototype-demo__contact-output" id="contact-email-output" role="status" aria-live="polite" hidden>
+                    <h3>Email Preview</h3>
+                    <p class="prototype-demo__contact-preview" id="contact-email-preview"></p>
+                    <a class="prototype-demo__contact-mailto" id="contact-email-mailto" href="mailto:hello@verdegrano.co.uk">Open in Email Client</a>
+                </div>
+                <footer class="prototype-demo__contact-info">
+                    <div class="prototype-demo__contact-info-links">
+                        <a href="mailto:hello@verdegrano.co.uk">hello@verdegrano.co.uk</a>
+                        <a href="tel:+441614960812">0161 496 0812</a>
+                    </div>
+                    <ul class="prototype-demo__contact-socials" aria-label="Social media">
+                        <li>
+                            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram homepage">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"></rect>
+                                    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"></circle>
+                                    <circle cx="18" cy="6" r="1" stroke="none"></circle>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook homepage">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5h1.7V3.9c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.6V10H6.7v3h2.9v8h3.9z"></path>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X homepage">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.6 22H2.4l7.3-8.4L1.9 2h6.4l4.5 6.8L18.9 2zm-1.1 18h1.7L7.4 3.9H5.6L17.8 20z"></path>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </footer>
+            </section>
+            <section class="prototype-demo__booking" id="restaurant-book" aria-labelledby="restaurant-book-title">
+                <p class="prototype-demo__eyebrow">Your table is waiting</p>
+                <h2 id="restaurant-book-title">Book A Table</h2>
+                <p>Use the Book A Table button in the restaurant navigation above to enter your reservation details.</p>
+            </section>
+            <footer class="prototype-demo__footer">
+                <p>Verde &amp; Grano · Fresh food, good company</p>
+            </footer>
+        </section>
+    </main>
     <button class="back-to-top" type="button" aria-label="Back to top" title="Back to top">
         <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 19V5M6 11l6-6 6 6"></path>
         </svg>
     </button>
     <script src="back-to-top.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
