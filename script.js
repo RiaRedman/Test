@@ -21,6 +21,7 @@ const contactEmailPreview = document.querySelector("#contact-email-preview");
 const contactEmailMailto = document.querySelector("#contact-email-mailto");
 const contactEmailCopyButton = document.querySelector("#contact-email-copy");
 const contactEmailCopyStatus = document.querySelector("#contact-email-copy-status");
+const livePrototypeSection = document.querySelector(".prototype-demo");
 const cookieBanner = document.querySelector("#cookie-consent-banner");
 const cookieConsentTitle = document.querySelector("#cookie-consent-title");
 const cookieConsentStatus = document.querySelector("#cookie-consent-status");
@@ -33,6 +34,9 @@ let openFrame = 0;
 let closeTransitionHandler;
 let contactEmailCopyTimeout;
 let cookieBannerTransitionHandler;
+let cookieBannerScopeFrame = 0;
+let cookieBannerOpen = true;
+let isPrototypeVisible = false;
 
 function openBookingDrawer() {
     if (closeTransitionHandler) {
@@ -269,7 +273,7 @@ contactEmailForm.addEventListener("submit", (event) => {
 const menuCatalog = {
     Starters: [
         { name: "Roasted tomato bruschetta", price: "£8", description: "Grilled sourdough, slow-roasted tomatoes, basil, and extra virgin olive oil.", image: "images/Starter.webp", imageAlt: "Roasted tomato bruschetta on grilled sourdough" },
-        { name: "Garlic & rosemary focaccia", price: "£6", description: "Warm house-baked focaccia with rosemary and extra virgin olive oil." },
+        { name: "Garlic & rosemary focaccia", price: "£6", description: "Warm house-baked focaccia with rosemary and extra virgin olive oil.", image: "images/menu/garlic6.jpg", imageAlt: "Garlic and rosemary focaccia" },
         { name: "Burrata & basil", price: "£10", description: "Creamy burrata with heritage tomatoes, fresh basil, and balsamic." },
         { name: "Mushroom arancini", price: "£9", description: "Crisp risotto bites filled with wild mushrooms and parmesan." },
         { name: "Crispy calamari", price: "£10", description: "Lightly fried calamari with lemon and a herby dipping sauce." }
@@ -441,8 +445,8 @@ function clearCookieBannerTransitionHandler() {
 
 function dismissCookieBanner() {
     clearCookieBannerTransitionHandler();
-    cookieSettingsLink.setAttribute("aria-expanded", "false");
-    cookieBanner.setAttribute("aria-hidden", "true");
+    cookieBannerOpen = false;
+    updateCookieBannerScope();
     cookieBanner.classList.add("is-dismissed");
 
     if (reduceMotion.matches) {
@@ -475,11 +479,66 @@ function showCookieBanner() {
         applyCookieConsent(consent);
     }
 
+    cookieBannerOpen = true;
     cookieBanner.hidden = false;
-    cookieBanner.removeAttribute("aria-hidden");
     cookieBanner.classList.remove("is-dismissed");
-    cookieSettingsLink.setAttribute("aria-expanded", "true");
+    updatePrototypeVisibility();
     cookieConsentTitle.focus();
+}
+
+function updateCookieBannerScope() {
+    cookieBanner.classList.toggle("is-outside-prototype", !isPrototypeVisible);
+    const shouldShow = isPrototypeVisible && cookieBannerOpen && !cookieBanner.hidden;
+    cookieBanner.setAttribute("aria-hidden", String(!shouldShow));
+    cookieSettingsLink.setAttribute("aria-expanded", String(shouldShow));
+}
+
+function setPrototypeVisibility(isVisible) {
+    isPrototypeVisible = isVisible;
+    updateCookieBannerScope();
+}
+
+function updatePrototypeVisibility() {
+    if (!cookieBannerOpen || cookieBanner.hidden) {
+        setPrototypeVisibility(false);
+        return;
+    }
+
+    const sectionBounds = livePrototypeSection.getBoundingClientRect();
+    const availableWidth = Math.min(window.innerWidth * 0.92, 960, sectionBounds.width - 32);
+
+    if (availableWidth <= 0) {
+        setPrototypeVisibility(false);
+        return;
+    }
+
+    cookieBanner.style.setProperty("--cookie-banner-width", `${availableWidth}px`);
+    cookieBanner.style.setProperty("--cookie-banner-left", `${sectionBounds.left + sectionBounds.width / 2}px`);
+
+    const bannerHeight = cookieBanner.getBoundingClientRect().height;
+    const bannerBottom = Math.min(window.innerHeight - 16, sectionBounds.bottom - 16);
+    const bannerTop = bannerBottom - bannerHeight;
+    const isContained = sectionBounds.left + 16 <= sectionBounds.left + sectionBounds.width / 2 - availableWidth / 2 &&
+        sectionBounds.right - 16 >= sectionBounds.left + sectionBounds.width / 2 + availableWidth / 2 &&
+        sectionBounds.top + 16 <= bannerTop &&
+        bannerBottom <= sectionBounds.bottom - 16;
+
+    if (isContained) {
+        cookieBanner.style.setProperty("--cookie-banner-bottom", `${window.innerHeight - bannerBottom}px`);
+    }
+
+    setPrototypeVisibility(isContained);
+}
+
+function scheduleCookieBannerScopeUpdate() {
+    if (cookieBannerScopeFrame) {
+        return;
+    }
+
+    cookieBannerScopeFrame = window.requestAnimationFrame(() => {
+        cookieBannerScopeFrame = 0;
+        updatePrototypeVisibility();
+    });
 }
 
 cookieChoiceButtons.forEach((button) => {
@@ -502,7 +561,8 @@ const savedCookieConsent = readCookieConsent();
 
 if (savedCookieConsent) {
     applyCookieConsent(savedCookieConsent);
-    cookieBanner.hidden = true;
-    cookieBanner.setAttribute("aria-hidden", "true");
-    cookieSettingsLink.setAttribute("aria-expanded", "false");
 }
+
+window.addEventListener("scroll", scheduleCookieBannerScopeUpdate, { passive: true });
+window.addEventListener("resize", scheduleCookieBannerScopeUpdate);
+updatePrototypeVisibility();
