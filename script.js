@@ -10,6 +10,7 @@ const reservationConsent = document.querySelector("#reservation-consent");
 const reservationMessage = document.querySelector("#reservation-message");
 const reservationConfirmation = document.querySelector("#reservation-confirmation");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const faqQuestionButtons = document.querySelectorAll("[data-faq-toggle]");
 const contactEmailForm = document.querySelector("#contact-email-form");
 const contactName = document.querySelector("#contact-name");
 const contactEmail = document.querySelector("#contact-email");
@@ -18,9 +19,20 @@ const contactMessage = document.querySelector("#contact-msg");
 const contactEmailOutput = document.querySelector("#contact-email-output");
 const contactEmailPreview = document.querySelector("#contact-email-preview");
 const contactEmailMailto = document.querySelector("#contact-email-mailto");
+const contactEmailCopyButton = document.querySelector("#contact-email-copy");
+const contactEmailCopyStatus = document.querySelector("#contact-email-copy-status");
+const cookieBanner = document.querySelector("#cookie-consent-banner");
+const cookieConsentTitle = document.querySelector("#cookie-consent-title");
+const cookieConsentStatus = document.querySelector("#cookie-consent-status");
+const cookiePreferences = document.querySelector("#cookie-prefs");
+const cookieAnalytics = document.querySelector("#cookie-analytics");
+const cookieSettingsLink = document.querySelector("#cookie-settings");
+const cookieChoiceButtons = document.querySelectorAll("[data-cookie-choice]");
 
 let openFrame = 0;
 let closeTransitionHandler;
+let contactEmailCopyTimeout;
+let cookieBannerTransitionHandler;
 
 function openBookingDrawer() {
     if (closeTransitionHandler) {
@@ -82,6 +94,55 @@ bookingDrawer.addEventListener("keydown", (event) => {
     }
 });
 
+faqQuestionButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        const answer = document.getElementById(button.getAttribute("aria-controls"));
+        const icon = button.querySelector("[data-faq-icon]");
+
+        if (!answer || !icon) {
+            throw new Error("FAQ question is missing its answer panel or toggle icon.");
+        }
+
+        const isExpanded = button.getAttribute("aria-expanded") === "true";
+        button.setAttribute("aria-expanded", String(!isExpanded));
+        icon.textContent = isExpanded ? "+" : "−";
+
+        if (isExpanded) {
+            answer.classList.remove("is-open");
+
+            if (reduceMotion.matches) {
+                answer.hidden = true;
+                return;
+            }
+
+            const hideAfterCollapse = (event) => {
+                if (event.target !== answer || event.propertyName !== "grid-template-rows") {
+                    return;
+                }
+
+                answer.removeEventListener("transitionend", hideAfterCollapse);
+
+                if (button.getAttribute("aria-expanded") === "false") {
+                    answer.hidden = true;
+                }
+            };
+            answer.addEventListener("transitionend", hideAfterCollapse);
+            return;
+        }
+
+        answer.hidden = false;
+
+        if (reduceMotion.matches) {
+            answer.classList.add("is-open");
+            return;
+        }
+
+        answer.classList.remove("is-open");
+        void answer.offsetHeight;
+        answer.classList.add("is-open");
+    });
+});
+
 reservationName.addEventListener("input", () => {
     reservationName.setCustomValidity("");
 });
@@ -131,10 +192,54 @@ contactMessage.addEventListener("input", () => {
 
 function hideContactEmailOutput() {
     contactEmailOutput.hidden = true;
+    resetContactEmailCopy();
+}
+
+function resetContactEmailCopy() {
+    window.clearTimeout(contactEmailCopyTimeout);
+    contactEmailCopyTimeout = null;
+    contactEmailCopyButton.textContent = "Copy Email to Clipboard";
+    contactEmailCopyStatus.textContent = "";
+}
+
+function showContactEmailCopyResult(buttonText, statusText) {
+    resetContactEmailCopy();
+    contactEmailCopyButton.textContent = buttonText;
+    contactEmailCopyStatus.textContent = statusText;
+    contactEmailCopyTimeout = window.setTimeout(resetContactEmailCopy, 2000);
+}
+
+async function copyContactEmailToClipboard() {
+    const emailText = contactEmailPreview.textContent;
+
+    if (!emailText) {
+        contactEmailCopyStatus.textContent = "Generate an email preview before copying.";
+        return;
+    }
+
+    if (!navigator.clipboard || typeof navigator.clipboard.writeText !== "function") {
+        showContactEmailCopyResult(
+            "Copy unavailable",
+            "Clipboard access is unavailable. You can select and copy the email preview manually."
+        );
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(emailText);
+        showContactEmailCopyResult("Copied!", "Email copied to clipboard.");
+    } catch (error) {
+        console.error("Unable to copy the generated email to the clipboard.", error);
+        showContactEmailCopyResult(
+            "Copy failed",
+            "Clipboard access failed. You can select and copy the email preview manually."
+        );
+    }
 }
 
 contactEmailForm.addEventListener("input", hideContactEmailOutput);
 contactEmailForm.addEventListener("change", hideContactEmailOutput);
+contactEmailCopyButton.addEventListener("click", copyContactEmailToClipboard);
 
 contactEmailForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -157,6 +262,7 @@ contactEmailForm.addEventListener("submit", (event) => {
     // Keep user-entered content as text and encode it for the mailto URL.
     contactEmailPreview.textContent = `To: hello@verdegrano.co.uk\nSubject: ${subject}\n\n${body}`;
     contactEmailMailto.href = `mailto:hello@verdegrano.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    resetContactEmailCopy();
     contactEmailOutput.hidden = false;
 });
 
@@ -269,3 +375,134 @@ menuCategoryButtons.forEach((button) => {
 });
 
 renderMenuCategory("Starters");
+
+function readCookieConsent() {
+    let savedConsent;
+
+    try {
+        savedConsent = window.localStorage.getItem("verdeCookieConsent");
+    } catch (error) {
+        console.error("Unable to read the saved cookie consent.", error);
+        cookieConsentStatus.textContent = "Your cookie settings could not be loaded. Please choose an option below.";
+        return null;
+    }
+
+    if (!savedConsent) {
+        return null;
+    }
+
+    try {
+        const consent = JSON.parse(savedConsent);
+
+        if (!consent || !["all", "selected", "rejected"].includes(consent.choice)) {
+            throw new Error("Saved cookie consent has an invalid format.");
+        }
+
+        return consent;
+    } catch (error) {
+        console.error("Unable to parse the saved cookie consent.", error);
+        cookieConsentStatus.textContent = "Your saved cookie settings could not be read. Please choose again.";
+        return null;
+    }
+}
+
+function applyCookieConsent(consent) {
+    cookiePreferences.checked = consent.choice === "all" ||
+        (consent.choice === "selected" && consent.preferences === true);
+    cookieAnalytics.checked = consent.choice === "all" ||
+        (consent.choice === "selected" && consent.analytics === true);
+}
+
+function saveCookieConsent(choice) {
+    const consent = {
+        choice,
+        preferences: choice === "all" || (choice === "selected" && cookiePreferences.checked),
+        analytics: choice === "all" || (choice === "selected" && cookieAnalytics.checked)
+    };
+
+    try {
+        window.localStorage.setItem("verdeCookieConsent", JSON.stringify(consent));
+    } catch (error) {
+        console.error("Unable to save the cookie consent.", error);
+        cookieConsentStatus.textContent = "Your cookie choice could not be saved. Check your browser storage settings and try again.";
+        return false;
+    }
+
+    applyCookieConsent(consent);
+    return true;
+}
+
+function clearCookieBannerTransitionHandler() {
+    if (cookieBannerTransitionHandler) {
+        cookieBanner.removeEventListener("transitionend", cookieBannerTransitionHandler);
+        cookieBannerTransitionHandler = null;
+    }
+}
+
+function dismissCookieBanner() {
+    clearCookieBannerTransitionHandler();
+    cookieSettingsLink.setAttribute("aria-expanded", "false");
+    cookieBanner.setAttribute("aria-hidden", "true");
+    cookieBanner.classList.add("is-dismissed");
+
+    if (reduceMotion.matches) {
+        cookieBanner.hidden = true;
+        cookieSettingsLink.focus();
+        return;
+    }
+
+    cookieBannerTransitionHandler = (event) => {
+        if (event.target !== cookieBanner || event.propertyName !== "opacity") {
+            return;
+        }
+
+        clearCookieBannerTransitionHandler();
+
+        if (cookieBanner.getAttribute("aria-hidden") === "true") {
+            cookieBanner.hidden = true;
+            cookieSettingsLink.focus();
+        }
+    };
+    cookieBanner.addEventListener("transitionend", cookieBannerTransitionHandler);
+}
+
+function showCookieBanner() {
+    clearCookieBannerTransitionHandler();
+    cookieConsentStatus.textContent = "";
+    const consent = readCookieConsent();
+
+    if (consent) {
+        applyCookieConsent(consent);
+    }
+
+    cookieBanner.hidden = false;
+    cookieBanner.removeAttribute("aria-hidden");
+    cookieBanner.classList.remove("is-dismissed");
+    cookieSettingsLink.setAttribute("aria-expanded", "true");
+    cookieConsentTitle.focus();
+}
+
+cookieChoiceButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        const choice = button.dataset.cookieChoice;
+
+        if (saveCookieConsent(choice)) {
+            cookieConsentStatus.textContent = "";
+            dismissCookieBanner();
+        }
+    });
+});
+
+cookieSettingsLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    showCookieBanner();
+});
+
+const savedCookieConsent = readCookieConsent();
+
+if (savedCookieConsent) {
+    applyCookieConsent(savedCookieConsent);
+    cookieBanner.hidden = true;
+    cookieBanner.setAttribute("aria-hidden", "true");
+    cookieSettingsLink.setAttribute("aria-expanded", "false");
+}
