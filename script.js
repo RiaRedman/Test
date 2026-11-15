@@ -451,7 +451,7 @@ function dismissCookieBanner() {
 
     if (reduceMotion.matches) {
         cookieBanner.hidden = true;
-        cookieSettingsLink.focus();
+        cookieSettingsLink.focus({ preventScroll: true });
         return;
     }
 
@@ -464,7 +464,7 @@ function dismissCookieBanner() {
 
         if (cookieBanner.getAttribute("aria-hidden") === "true") {
             cookieBanner.hidden = true;
-            cookieSettingsLink.focus();
+            cookieSettingsLink.focus({ preventScroll: true });
         }
     };
     cookieBanner.addEventListener("transitionend", cookieBannerTransitionHandler);

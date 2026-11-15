@@ -66,6 +66,14 @@
             line-height: 1.8;
         }
 
+        .case-study-card__choices {
+            display: grid;
+            gap: 0.75rem;
+            margin: 0;
+            padding-left: 1.25rem;
+            line-height: 1.8;
+        }
+
         .prototype-demo {
             --prototype-terracotta: #bf634b;
             --prototype-olive: #596746;
@@ -985,6 +993,20 @@
             text-underline-offset: 0.2em;
         }
 
+        .prototype-attribution {
+            display: grid;
+            gap: 0.3rem;
+            margin: 0;
+            color: #ECD9CB;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .prototype-attribution p {
+            margin: 0;
+        }
+
         .cookie-consent-banner {
             --cookie-espresso: #30251f;
             --cookie-cream: #f5eddf;
@@ -1196,12 +1218,16 @@
         <h1>Problem Solving Case Study</h1>
         <section class="case-study-grid" aria-label="Case study details">
             <article class="case-study-card" aria-labelledby="business-context-title">
-                <h2 id="business-context-title">CTO Business Context</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vitae sapien, facilisis posuere, interdum neque, vulputate blandit, and responsive solutions for growing teams.</p>
+                <h2 id="business-context-title">CTO Business Context: Verde &amp; Grano Digital Launch</h2>
+                <p>As Chief Technology Officer (CTO) for Verde &amp; Grano, a 100% Halal, alcohol-free Italian pasta and mocktail bar in central Manchester, I designed this web prototype to give the restaurant a clean digital home before launch. Previously, customers would have to call up or DM on social media just to ask if the food was Halal, check opening times, or book a table—which slows things down and leads to missed bookings. My goal was to put everything in one place: clear Halal assurance right at the top, an easy-to-browse menu, instant table booking, and an automated inquiry email generator that runs directly in the browser without needing an expensive backend server.</p>
             </article>
             <article class="case-study-card" aria-labelledby="design-choices-title">
                 <h2 id="design-choices-title">Strategic Design Choices</h2>
-                <p>Praesent commodo, lectus at feugiat varius, magna augue consequat, posuere arcu, tincidunt creative, scalable pathways, thoughtful decisions, measurable outcomes, and lasting value.</p>
+                <ul class="case-study-card__choices">
+                    <li><strong>Warm Branding &amp; Clear Trust Signals:</strong> I went with a terracotta, olive green, cream, and espresso palette to give it a modern Italian dining feel.</li>
+                    <li><strong>Interactive JavaScript Features:</strong> Instead of loading separate pages for every action, I used JavaScript to power a drop-down Book a Table drawer in the navigation bar, category filter tabs for the menu, an expandable FAQ accordion, a working GDPR cookie banner, and a contact form that builds and copies ready-to-send inquiry emails on the spot.</li>
+                    <li><strong>Mobile-First &amp; Accessible Layout:</strong> Because most people look up restaurants on their phones, I built the sections with responsive CSS Grid and Flexbox layouts so the booking drawer, menu tabs, and forms stay easy to tap and read on any screen size.</li>
+                </ul>
             </article>
         </section>
         <section class="prototype-demo" aria-labelledby="prototype-demo-title">
@@ -1299,7 +1325,7 @@
                     <p class="prototype-demo__story-eyebrow">OUR STORY</p>
                     <h2 class="prototype-demo__story-title" id="restaurant-story-title">Authentic Italian Craft, 100% Halal</h2>
                     <p class="prototype-demo__story-copy">Founded in central Manchester, Verde &amp; Grano was created with a simple belief: everyone should be able to experience traditional, hand-rolled Italian pasta culture without compromising on dietary values. Every morning, our kitchen extrudes and shapes fresh durum wheat pasta from scratch, pairing slow-simmered sauces with HMC-certified Halal meats and vegetarian-rennet cheeses. Instead of wine and liqueurs, our bar crafts zero-proof botanical spritzes infused with Mediterranean citrus and fresh herbs—delivering vibrant, modern casual dining in an alcohol-free space.</p>
-                    <div class="prototype-demo__story-highlights" aria-label="Our highlights">
+                    <div class="prototype-demo__story-highlights" role="group" aria-label="Our highlights">
                         <article class="prototype-demo__story-highlight">
                             <h3>Rolled Fresh Daily</h3>
                             <p>Handmade pasta shaped every morning in-house.</p>
@@ -1325,11 +1351,6 @@
                     <h3>Opening Hours</h3>
                     <p>Tue–Thu: 1:00 PM – 10:00 PM | Fri–Sat: 1:00 PM – 11:00 PM | Sun: 1:00 PM – 9:00 PM (Closed Mondays)</p>
                     <p><a href="tel:+441614960812">0161 496 0812</a><br><a href="mailto:hello@verdegrano.co.uk">hello@verdegrano.co.uk</a></p>
-                    <nav class="prototype-demo__find-us-socials" aria-label="Verde and Grano social media">
-                        <a class="prototype-demo__find-us-social" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
-                        <a class="prototype-demo__find-us-social" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook</a>
-                        <a class="prototype-demo__find-us-social" href="https://x.com/" target="_blank" rel="noopener noreferrer">X</a>
-                    </nav>
                 </div>
             </section>
             <section class="prototype-demo__contact" id="restaurant-contact" aria-labelledby="restaurant-contact-title">
@@ -1473,6 +1494,10 @@
                 <a class="prototype-demo__cookie-settings" id="cookie-settings" href="#cookie-consent-banner" aria-controls="cookie-consent-banner" aria-expanded="false">Cookie Settings</a>
             </footer>
         </section>
+        <footer class="prototype-attribution">
+            <p><em>Verde &amp; Grano Prototype Overview and Hero Visuals</em></p>
+            <p><em>Note.</em> All custom visual assets and mockups generated using Google Gemini (Google, 2026).</p>
+        </footer>
     </main>
     <aside class="cookie-consent-banner is-outside-prototype" id="cookie-consent-banner" aria-labelledby="cookie-consent-title" aria-describedby="cookie-consent-description" aria-hidden="true">
         <h2 id="cookie-consent-title" tabindex="-1">We Value Your Privacy</h2>
