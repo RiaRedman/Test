@@ -43,7 +43,7 @@
 
         .case-study-grid {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-columns: minmax(0, 1fr);
             gap: 2rem;
         }
 
@@ -66,12 +66,58 @@
             line-height: 1.8;
         }
 
-        .case-study-card__choices {
+        .case-study-rationale-cards {
             display: grid;
-            gap: 0.75rem;
+            gap: 1rem;
+        }
+
+        .case-study-rationale-card {
+            min-height: 6rem;
+            padding: 1.25rem;
+            border-radius: 12px;
+            background: #6a2832;
+            color: #ECD9CB;
+            box-shadow: 0 6px 14px rgb(0 0 0 / 28%), 0 2px 4px rgb(0 0 0 / 18%);
+        }
+
+        .case-study-rationale-heading {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .case-study-rationale-heading svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            flex: 0 0 1.5rem;
+            margin-top: 0.1rem;
+        }
+
+        .case-study-rationale-icon--click {
+            color: #bf634b;
+        }
+
+        .case-study-rationale-icon--palette {
+            color: #ECD9CB;
+        }
+
+        .case-study-rationale-icon--accessibility {
+            color: #A8C686;
+        }
+
+        .case-study-rationale-icon--mobile {
+            color: #bf634b;
+        }
+
+        .case-study-rationale-card h3 {
             margin: 0;
-            padding-left: 1.25rem;
-            line-height: 1.8;
+            font-size: 1.2rem;
+        }
+
+        .case-study-rationale-card p {
+            margin: 0;
+            line-height: 1.7;
         }
 
         .prototype-demo {
@@ -1130,10 +1176,6 @@
         }
 
         @media (max-width: 700px) {
-            .case-study-grid {
-                grid-template-columns: 1fr;
-            }
-
             .prototype-demo__hero {
                 height: 26rem;
             }
@@ -1221,13 +1263,62 @@
                 <h2 id="business-context-title">CTO Business Context: Verde &amp; Grano Digital Launch</h2>
                 <p>As Chief Technology Officer (CTO) for Verde &amp; Grano, a 100% Halal, alcohol-free Italian pasta and mocktail bar in central Manchester, I designed this web prototype to give the restaurant a clean digital home before launch. Previously, customers would have to call up or DM on social media just to ask if the food was Halal, check opening times, or book a table—which slows things down and leads to missed bookings. My goal was to put everything in one place: clear Halal assurance right at the top, an easy-to-browse menu, instant table booking, and an automated inquiry email generator that runs directly in the browser without needing an expensive backend server.</p>
             </article>
-            <article class="case-study-card" aria-labelledby="design-choices-title">
-                <h2 id="design-choices-title">Strategic Design Choices</h2>
-                <ul class="case-study-card__choices">
-                    <li><strong>Warm Branding &amp; Clear Trust Signals:</strong> I went with a terracotta, olive green, cream, and espresso palette to give it a modern Italian dining feel.</li>
-                    <li><strong>Interactive JavaScript Features:</strong> Instead of loading separate pages for every action, I used JavaScript to power a drop-down Book a Table drawer in the navigation bar, category filter tabs for the menu, an expandable FAQ accordion, a working GDPR cookie banner, and a contact form that builds and copies ready-to-send inquiry emails on the spot.</li>
-                    <li><strong>Mobile-First &amp; Accessible Layout:</strong> Because most people look up restaurants on their phones, I built the sections with responsive CSS Grid and Flexbox layouts so the booking drawer, menu tabs, and forms stay easy to tap and read on any screen size.</li>
-                </ul>
+            <article class="case-study-card" aria-labelledby="design-rationale-title">
+                <h2 id="design-rationale-title">Strategic Design Choices &amp; Technical Rationale</h2>
+                <div class="case-study-rationale-cards">
+                    <article class="case-study-rationale-card">
+                        <div class="case-study-rationale-heading">
+                            <svg class="case-study-rationale-icon--click" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M6 3v16l4-4 3 6 2-1-3-6h6L6 3Z"/>
+                                <path d="M12 2V1M17 4l2-2M19 9h3"/>
+                            </svg>
+                            <h3>User Journey &amp; Conversion Optimisation (UX):</h3>
+                        </div>
+                        <p>The layout was designed to minimise friction for the user. By anchoring the navigation bar with a high-contrast 'Book A Table' call-to-action button, visitors can instantly trigger an interactive drop-down drawer, allowing for easy access.</p>
+                    </article>
+                    <article class="case-study-rationale-card">
+                        <div class="case-study-rationale-heading">
+                            <svg class="case-study-rationale-icon--palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M12 3a9 9 0 1 0 0 18h1.2a2 2 0 0 0 1.5-3.3c-.9-1 0-2.7 1.4-2.7H18a3 3 0 0 0 3-3c0-5-4-9-9-9Z"/>
+                                <circle cx="7.5" cy="10" r="1" fill="#bf634b" stroke="none"/>
+                                <circle cx="11" cy="7" r="1" fill="#596746" stroke="none"/>
+                                <circle cx="15" cy="8" r="1" fill="#F7DF1E" stroke="none"/>
+                            </svg>
+                            <h3>Colour Psychology &amp; Brand Differentiation:</h3>
+                        </div>
+                        <p>Abandoning generic fast-casual tropes, the palette pairs warm terracotta, earthy olive green, soft cream, and rich espresso brown. This creates a sophisticated, editorial atmosphere that speaks directly to urban diners seeking premium, Halal Italian dining.</p>
+                    </article>
+                    <article class="case-study-rationale-card">
+                        <div class="case-study-rationale-heading">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <rect width="24" height="24" rx="3" fill="#F7DF1E"/>
+                                <text x="12" y="17" fill="#323330" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">JS</text>
+                            </svg>
+                            <h3>Modular JavaScript Interactivity:</h3>
+                        </div>
+                        <p>To deliver a seamless application feel without heavy front-end frameworks, vanilla JavaScript drives the dynamic menu tab switcher (instantly filtering dish categories and high-definition photography without page reloads) and powers the interactive contact email generator with one-click clipboard copying.</p>
+                    </article>
+                    <article class="case-study-rationale-card">
+                        <div class="case-study-rationale-heading">
+                            <svg class="case-study-rationale-icon--accessibility" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="12" cy="4" r="2"/>
+                                <path d="M4 9h16M12 8v6m0 0-4 7m4-7 4 7"/>
+                            </svg>
+                            <h3>Accessibility &amp; Compliance</h3>
+                        </div>
+                        <p>The prototype follows WCAG best practices by using semantic HTML5 tags and explicit form labeling for screen-reader compatibility. Furthermore, it ensures GDPR compliance through a persistent cookie banner backed by browser <code>localStorage</code> and a dedicated settings toggle that allows users to manage their privacy preferences at any time.</p>
+                    </article>
+                    <article class="case-study-rationale-card">
+                        <div class="case-study-rationale-heading">
+                            <svg class="case-study-rationale-icon--mobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <rect x="6" y="2" width="12" height="20" rx="2"/>
+                                <path d="M10 5h4M11 19h2"/>
+                            </svg>
+                            <h3>Mobile-First Layout:</h3>
+                        </div>
+                        <p>Because most people look up restaurants on their phones, I built the sections with responsive CSS Grid and Flexbox layouts so the booking drawer, menu tabs, and forms stay easy to tap and read on any screen size.</p>
+                    </article>
+                </div>
             </article>
         </section>
         <section class="prototype-demo" aria-labelledby="prototype-demo-title">
